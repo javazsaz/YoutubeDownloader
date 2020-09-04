@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=YoutubeDownloader
+Comment=Download youtube videos
+Exec=gnome-terminal -e "bash -c 'cd /home/morris/git/YoutubeDownloader; npm install;node app.js;$SHELL'"
+Icon=/home/morris/git/YoutubeDownloader/images/image.png
+Terminal=true
+Type=Application
+Categories=Application;
+Name[it_IT]=YoutubeDownloader.desktop
