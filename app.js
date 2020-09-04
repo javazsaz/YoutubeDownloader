@@ -1,12 +1,16 @@
 var inquirer = require('inquirer'); //library for use interavtive commands
-var youtubedl = require('youtube-dl')
-var signale = require('signale');
-var asciify = require('asciify-image'); // library for create asciify images
+var youtubedl = require('youtube-dl'); //library for download youtube videos
+var signale = require('signale'); //library to insert status report
+var asciify = require('asciify-image'); //library for create asciify images
 
 var fs = require("fs");
 
 showLogo(true);
 
+/**
+ * Show  or not application logo and start application
+ * @param {*} logo -> to show logo or not
+ */
 function showLogo(logo) {
 
     if (logo) {
@@ -27,6 +31,9 @@ function showLogo(logo) {
         start();
     }
 }
+/**
+ * Start application
+ */
 function start() {
 
     inquirer.prompt([
@@ -59,6 +66,8 @@ function start() {
                 signale.info('Nome del video: ' + info._filename)
                 signale.info('Dimensioni: ' + size + " MB")
                 signale.pending('Inizio a scaricare il video');
+                
+                //download video
                 video.pipe(fs.createWriteStream(info._filename + '.mp4'))
             });
 
@@ -66,6 +75,7 @@ function start() {
             video.on('end', function () {
                 signale.success("Il video è stato scaricato");
 
+                //if you want subtitles
                 if (answers.subtitles.toUpperCase() === "S") {
                     signale.pending("Inizio a scaricare i sottotitoli");
 
@@ -86,6 +96,7 @@ function start() {
                     youtubedl.getSubs(answers.link, options, function (err, files) {
                         if (err) throw err
 
+                        //if thesubtitles are presents
                         if (files.length > 0) {
                             signale.success('I sottotitoli sono stati scaricati:', files);
                         } else {
@@ -93,6 +104,7 @@ function start() {
                         }
                     })
                 }
+                //Restart application while user send Ctrl+c command
                 showLogo(false);
             })
 
