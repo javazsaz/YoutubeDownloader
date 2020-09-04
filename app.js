@@ -5,28 +5,36 @@ var asciify = require('asciify-image'); // library for create asciify images
 
 var fs = require("fs");
 
-start();
+showLogo(true);
 
+function showLogo(logo) {
+
+    if (logo) {
+        var optionsAsciify = {
+            fit: 'box',
+            width: 15,
+            height: 15
+        };
+        asciify('./images/image.png', optionsAsciify, function (err, asciified) {
+            if (err) throw err;
+
+            // Print to console
+            console.log(asciified);
+
+            start();
+        })
+    } else {
+        start();
+    }
+}
 function start() {
-
-    var optionsAsciify = {
-        fit: 'box',
-        width: 15,
-        height: 15
-    };
-    asciify('./images/image.png', optionsAsciify, function (err, asciified) {
-        if (err) throw err;
-
-        // Print to console
-        console.log(asciified);
-    
 
     inquirer.prompt([
         {
             // parameters
             type: "question", // type
             name: "link", //response name
-            message: "Qual'è il link del video da scaricare?" // question
+            message: "Qual'è il link del video da scaricare? Ctrl+c per uscire" // question
         },
         {
             type: "question",
@@ -57,10 +65,10 @@ function start() {
             //When downloading is finished
             video.on('end', function () {
                 signale.success("Il video è stato scaricato");
-                
+
                 if (answers.subtitles.toUpperCase() === "S") {
                     signale.pending("Inizio a scaricare i sottotitoli");
-                    
+
                     const options = {
                         // Write automatic subtitle file (youtube only)
                         auto: false,
@@ -85,8 +93,8 @@ function start() {
                         }
                     })
                 }
+                showLogo(false);
             })
 
         })
-    })
 }
