@@ -1,6 +1,6 @@
-/Sottotitoli
-
+*.ttml
 *.mp4
 *.wmv
 *.avi
+*.mp3
 node_modules

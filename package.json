@@ -8,10 +8,11 @@
     "start": "npm install"
   },
   "dependencies": {
+    "asciify-image": "0.1.6",
     "inquirer": "7.3.3",
-    "youtube-dl": "3.0.2",
     "signale": "1.4.0",
-    "asciify-image": "0.1.6"
+    "youtube-dl": "3.0.2",
+    "youtube-mp3-downloader": "^0.7.3"
   },
   "author": "Morris Penasso",
   "license": "MIT"

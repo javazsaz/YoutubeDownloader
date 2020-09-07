@@ -5,15 +5,13 @@ var asciify = require('asciify-image'); //library for create asciify images
 
 var fs = require("fs");
 
-showLogo(true);
+showLogo();
 
 /**
  * Show  or not application logo and start application
- * @param {*} logo -> to show logo or not
  */
-function showLogo(logo) {
+function showLogo() {
 
-    if (logo) {
         var optionsAsciify = {
             fit: 'box',
             width: 15,
@@ -25,16 +23,95 @@ function showLogo(logo) {
             // Print to console
             console.log(asciified);
 
-            start();
+            selectMode();
         })
-    } else {
-        start();
-    }
 }
+
+function selectMode()   {
+     
+    // ask mode
+     inquirer.prompt([
+        {
+            type: 'list',
+            message: 'Seleziona la modalità che vorresti usare: Ctrl+c per uscire',
+            name: 'mode',
+            default: 'video',
+            choices: [
+                {
+                    name: "Download video",
+                    value: "video",
+                },
+                {
+                    name: "Download audio",
+                    value: "audio",
+                }
+            ]
+        }
+    ]).then(function (answer) {
+        if(answer.mode == "video")    {
+            startVideo();
+        } else if(answer.mode == "audio") {
+            startAudio();
+        }
+    })
+}
+
+function startAudio() {
+    var YoutubeMp3Downloader = require("youtube-mp3-downloader");
+
+    inquirer.prompt([
+        {
+            // parameters
+            type: "question", // type
+            name: "link", //response name
+            message: "Qual'è l'id del video da cui scaricare l'audio? Ctrl+c per uscire" // question
+        }
+    ])
+        .then(answer => {
+
+            //Configure YoutubeMp3Downloader with your settings
+            var YD = new YoutubeMp3Downloader({
+               "ffmpegPath": process.cwd() + "/lib/ffmpeg",         // FFmpeg binary location
+               "outputPath": process.cwd() + "/audio",  // Output file location (default: the home directory)
+                "youtubeVideoQuality": "highestaudio",  // Desired video quality (default: highestaudio)
+                "queueParallelism": 2,                  // Download parallelism (default: 1)
+                "progressTimeout": 2000,                // Interval in ms for the progress reports (default: 1000)
+                "allowWebm": false                      // Enable download from WebM sources (default: false)
+            });
+            
+            signale.pending("Inizio a scaricare la traccia audio...")
+            
+            //Download video and save as MP3 file
+            YD.download(answer.link);
+
+
+            YD.on("finished", function (err, data) {
+                signale.success("Traccia audio scaricata");
+                
+                var transferredData = data.stats.transferredBytes / 1000000;
+                signale.info('Nome della traccia audio: ' + data.videoTitle)
+                signale.info('Dimensioni: ' + transferredData.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0] + " MB")
+
+                selectMode();
+            });
+
+            YD.on("error", function (error) {
+                console.log(error);
+            });
+
+            YD.on("progress", function (progress) {
+
+                var percentage = progress.progress.percentage;
+                signale.info(percentage.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0] + "%");
+            });
+        })
+}
+
+
 /**
  * Start application
  */
-function start() {
+function startVideo() {
 
     inquirer.prompt([
         {
@@ -50,12 +127,12 @@ function start() {
         }
     ])
         .then(answers => {
-
+            
             const video = youtubedl(answers.link,
                 // Optional arguments passed to youtube-dl.
                 ['--format=18'],
                 // Additional options can be given for calling `child_process.execFile()`.
-                { cwd: __dirname }
+                { cwd: process.cwd() + "/video" }
 
             )
 
@@ -90,7 +167,7 @@ function start() {
                         // Languages of subtitles to download, separated by commas.
                         lang: 'it, en',
                         // The directory to save the downloaded files in.
-                        cwd: __dirname + "/Sottotitoli",
+                        cwd: process.cwd() + "/Sottotitoli",
                     }
 
                     youtubedl.getSubs(answers.link, options, function (err, files) {
@@ -102,10 +179,15 @@ function start() {
                         } else {
                             signale.fatal("I sottotitoli non sono disponibili");
                         }
+
+                        //Restart application while user send Ctrl+c command
+                        selectMode();
                     })
+                } else  {
+                    
+                    //Restart application while user send Ctrl+c command
+                    selectMode();
                 }
-                //Restart application while user send Ctrl+c command
-                showLogo(false);
             })
 
         })
