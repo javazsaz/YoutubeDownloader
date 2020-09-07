@@ -233,7 +233,7 @@ function moveVideo() {
         });
     };
 
-    //move file1.htm from 'test/' to 'test/dir_1/'
+    //move file from currentDIr to '/video'
     moveFile(infoVideo._filename, process.cwd() + "/video");
 
 }
