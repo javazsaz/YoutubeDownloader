@@ -1,6 +1,6 @@
 {
   "name": "youtubedownloader",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "A software for download youtube videos",
   "main": "app.js",
   "scripts": {
