@@ -5,8 +5,7 @@ For use this software, please install:
 
 **Nodejs**
  
- - Linux: On linux folder 
- - Windows: On Windows folder
+ - Download NodeJs from: https://nodejs.org/en/download/
 
 **ffmpeg**
 
