@@ -167,7 +167,7 @@ function startVideo() {
                         // Languages of subtitles to download, separated by commas.
                         lang: 'it, en',
                         // The directory to save the downloaded files in.
-                        cwd: process.cwd() + "/Sottotitoli",
+                        cwd: process.cwd() + "/Subtitles",
                     }
 
                     youtubedl.getSubs(answers.link, options, function (err, files) {
@@ -184,7 +184,7 @@ function startVideo() {
                         selectMode();
                     })
                 } else  {
-                    
+
                     //Restart application while user send Ctrl+c command
                     selectMode();
                 }
