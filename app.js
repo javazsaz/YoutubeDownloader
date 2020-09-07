@@ -71,7 +71,7 @@ function startAudio() {
 
             //Configure YoutubeMp3Downloader with your settings
             var YD = new YoutubeMp3Downloader({
-               "ffmpegPath": process.cwd() + "/lib/ffmpeg",         // FFmpeg binary location
+               //"ffmpegPath": process.cwd() + "/lib/ffmpeg",         // FFmpeg binary location
                "outputPath": process.cwd() + "/audio",  // Output file location (default: the home directory)
                 "youtubeVideoQuality": "highestaudio",  // Desired video quality (default: highestaudio)
                 "queueParallelism": 2,                  // Download parallelism (default: 1)
