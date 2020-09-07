@@ -4,8 +4,11 @@ var signale = require('signale'); //library to insert status report
 var asciify = require('asciify-image'); //library for create asciify images
 
 var fs = require("fs");
+const { resolve } = require('path');
 
 showLogo();
+
+var infoVideo = null;
 
 /**
  * Show  or not application logo and start application
@@ -27,6 +30,9 @@ function showLogo() {
         })
 }
 
+/**
+ * Show list modes : video or audio
+ */
 function selectMode()   {
      
     // ask mode
@@ -56,6 +62,9 @@ function selectMode()   {
     })
 }
 
+/**
+ * For start the download audio
+ */
 function startAudio() {
     var YoutubeMp3Downloader = require("youtube-mp3-downloader");
 
@@ -109,7 +118,7 @@ function startAudio() {
 
 
 /**
- * Start application
+ * For start the download video
  */
 function startVideo() {
 
@@ -132,12 +141,15 @@ function startVideo() {
                 // Optional arguments passed to youtube-dl.
                 ['--format=18'],
                 // Additional options can be given for calling `child_process.execFile()`.
-                { cwd: process.cwd() + "/video" }
+                { cwd: __dirname } //Not work with another locations
 
             )
 
             // Will be called when the download starts.
             video.on('info', function (info) {
+
+                infoVideo = info;
+
                 var size = info.size / 1000000;
                 size = size.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0];
                 signale.info('Nome del video: ' + info._filename)
@@ -145,12 +157,15 @@ function startVideo() {
                 signale.pending('Inizio a scaricare il video');
                 
                 //download video
-                video.pipe(fs.createWriteStream(info._filename + '.mp4'))
+                video.pipe(fs.createWriteStream(info._filename))
             });
 
             //When downloading is finished
             video.on('end', function () {
                 signale.success("Il video è stato scaricato");
+
+                //I move it on "video" folder
+                moveVideo();
 
                 //if you want subtitles
                 if (answers.subtitles.toUpperCase() === "S") {
@@ -167,7 +182,7 @@ function startVideo() {
                         // Languages of subtitles to download, separated by commas.
                         lang: 'it, en',
                         // The directory to save the downloaded files in.
-                        cwd: process.cwd() + "/Subtitles",
+                        cwd: process.cwd() + "/video/Subtitles",
                     }
 
                     youtubedl.getSubs(answers.link, options, function (err, files) {
@@ -191,4 +206,34 @@ function startVideo() {
             })
 
         })
+}
+
+/**
+ * Move video file on "video" folder
+ */
+function moveVideo() {
+
+    //moves the $file to $dir2
+    var moveFile = function(file, dir2) {
+
+        //include the path modules
+        var path = require('path');
+
+        //gets file name and adds it to dir2
+        var f = path.basename(file);
+        var dest = path.resolve(dir2, f);
+
+        fs.rename(file, dest, (err) => {
+            if (err)    {
+                throw err;
+            } 
+            else    {
+                //console.log('Successfully moved');
+            } 
+        });
+    };
+
+    //move file1.htm from 'test/' to 'test/dir_1/'
+    moveFile(infoVideo._filename, process.cwd() + "/video");
+
 }
