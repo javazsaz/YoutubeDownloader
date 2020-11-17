@@ -12,3 +12,9 @@ For use this software, please install:
 
  - Linux: sudo apt install ffmpeg
  - Windows: Download ffmpeg from: https://ffmpeg.zeranoe.com/builds/
+
+For windows: Use "Password Manager.exe".
+
+For Linux: Please modify PasswordManager.desktop with your path for use this launcher for launch the application.
+
+If these file not work, open terminal on project folder and launch "npm install" and "node app.js"
