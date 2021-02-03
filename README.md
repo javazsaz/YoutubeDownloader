@@ -11,7 +11,7 @@ For use this software, please install:
 **ffmpeg**
 
  - Linux: sudo apt install ffmpeg
- - Windows: Download ffmpeg from: https://ffmpeg.zeranoe.com/builds/
+ - Windows: Download ffmpeg from: https://www.ffmpeg.org/download.html
 
 For windows: Use "Password Manager.exe".
 
