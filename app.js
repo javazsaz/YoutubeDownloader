@@ -87,7 +87,7 @@ function startAudio() {
                 "allowWebm": false                      // Enable download from WebM sources (default: false)
             });
             
-            signale.pending("Inizio a scaricare la traccia audio...")
+            signale.pending("Start to download audio track...")
             
             //Download video and save as MP3 file
             YD.download(answer.link);
@@ -169,7 +169,7 @@ function startVideo() {
 
             //When downloading is finished
             video.on('end', function () {
-                signale.success("Il video è stato scaricato");
+                signale.success("The video has been downloaded");
 
                 //I move it on "video" folder
                 moveVideo();
