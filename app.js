@@ -39,7 +39,7 @@ function selectMode()   {
      inquirer.prompt([
         {
             type: 'list',
-            message: 'Seleziona la modalità che vorresti usare: Ctrl+c per uscire',
+            message: 'Choose the mode to use. Ctrl+C to exit',
             name: 'mode',
             default: 'video',
             choices: [
@@ -73,7 +73,7 @@ function startAudio() {
             // parameters
             type: "question", // type
             name: "link", //response name
-            message: "Qual'è l'id del video da cui scaricare l'audio? Ctrl+c per uscire" // question
+            message: "What is the audio id? Ctrl+c to exit" // question
         }
     ])
         .then(answer => {
@@ -95,11 +95,11 @@ function startAudio() {
 
 
             YD.on("finished", function (err, data) {
-                signale.success("Traccia audio scaricata");
+                signale.success("Audio track downloaded");
                 
                 var transferredData = data.stats.transferredBytes / 1000000;
-                signale.info('Nome della traccia audio: ' + data.videoTitle)
-                signale.info('Dimensioni: ' + transferredData.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0] + " MB")
+                signale.info('Name of audio track: ' + data.videoTitle)
+                signale.info('Size: ' + transferredData.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0] + " MB")
 
                 selectMode();
             });
@@ -127,12 +127,12 @@ function startVideo() {
             // parameters
             type: "question", // type
             name: "link", //response name
-            message: "Qual'è il link del video da scaricare? Ctrl+c per uscire" // question
+            message: "What is the video link? Ctrl+c to exit" // question
         },
         {
             type: "question",
             name: "subtitles",
-            message: "Vuoi i sottotitoli? (S/N)"
+            message: "Download the subtitles? (Y/N)"
         }
     ])
         .then(answers => {
@@ -152,9 +152,9 @@ function startVideo() {
 
                 var size = info.size / 1000000;
                 size = size.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0];
-                signale.info('Nome del video: ' + info._filename)
-                signale.info('Dimensioni: ' + size + " MB")
-                signale.pending('Inizio a scaricare il video');
+                signale.info('Name of video: ' + info._filename)
+                signale.info('Size: ' + size + " MB")
+                signale.pending('Start to download the video');
                 
                 //download video
                 video.pipe(fs.createWriteStream(info._filename))
@@ -168,8 +168,8 @@ function startVideo() {
                 moveVideo();
 
                 //if you want subtitles
-                if (answers.subtitles.toUpperCase() === "S") {
-                    signale.pending("Inizio a scaricare i sottotitoli");
+                if (answers.subtitles.toUpperCase() === "Y") {
+                    signale.pending("Start to download the subtitles");
 
                     const options = {
                         // Write automatic subtitle file (youtube only)
@@ -190,9 +190,9 @@ function startVideo() {
 
                         //if thesubtitles are presents
                         if (files.length > 0) {
-                            signale.success('I sottotitoli sono stati scaricati:', files);
+                            signale.success('Subtitles downloaded:', files);
                         } else {
-                            signale.fatal("I sottotitoli non sono disponibili");
+                            signale.fatal("Subtitles not available");
                         }
 
                         //Restart application while user send Ctrl+c command
