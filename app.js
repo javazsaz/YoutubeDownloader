@@ -4,7 +4,6 @@ var signale = require('signale'); //library to insert status report
 var asciify = require('asciify-image'); //library for create asciify images
 
 var fs = require("fs");
-const { resolve } = require('path');
 
 showLogo();
 
@@ -54,9 +53,9 @@ function selectMode()   {
             ]
         }
     ]).then(function (answer) {
-        if(answer.mode == "video")    {
+        if(answer.mode == "video")    { // if answer is video ( value of choices )
             startVideo();
-        } else if(answer.mode == "audio") {
+        } else if(answer.mode == "audio") { // if answer is audio ( value of choices )
             startAudio();
         }
     })
@@ -66,7 +65,7 @@ function selectMode()   {
  * For start the download audio
  */
 function startAudio() {
-    var YoutubeMp3Downloader = require("youtube-mp3-downloader");
+    var YoutubeMp3Downloader = require("youtube-mp3-downloader"); // get module for download audio
 
     inquirer.prompt([
         {
@@ -76,7 +75,7 @@ function startAudio() {
             message: "What is the audio id? Ctrl+c to exit" // question
         }
     ])
-        .then(answer => {
+        .then(answer => { // answer contain link property ( name property of question )
 
             //Configure YoutubeMp3Downloader with your settings
             var YD = new YoutubeMp3Downloader({
@@ -94,22 +93,28 @@ function startAudio() {
             YD.download(answer.link);
 
 
+            //when download is finished
             YD.on("finished", function (err, data) {
                 signale.success("Audio track downloaded");
                 
+                //trasform bytes on MB
                 var transferredData = data.stats.transferredBytes / 1000000;
                 signale.info('Name of audio track: ' + data.videoTitle)
                 signale.info('Size: ' + transferredData.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0] + " MB")
 
+                //ask new question: audio or video
                 selectMode();
             });
 
+            //if download obtain an error
             YD.on("error", function (error) {
                 console.log(error);
             });
 
+            //during download
             YD.on("progress", function (progress) {
 
+                //show percentage
                 var percentage = progress.progress.percentage;
                 signale.info(percentage.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0] + "%");
             });
@@ -135,8 +140,9 @@ function startVideo() {
             message: "Download the subtitles? (Y/N)"
         }
     ])
-        .then(answers => {
+        .then(answers => { // answer contain link and subtitles properties ( name of questions )
             
+            //create youtubedl object that contain link and options
             const video = youtubedl(answers.link,
                 // Optional arguments passed to youtube-dl.
                 ['--format=18'],
@@ -148,6 +154,7 @@ function startVideo() {
             // Will be called when the download starts.
             video.on('info', function (info) {
 
+                //save information on global variable
                 infoVideo = info;
 
                 var size = info.size / 1000000;
@@ -185,6 +192,7 @@ function startVideo() {
                         cwd: process.cwd() + "/video/Subtitles",
                     }
 
+                    //download subtitles
                     youtubedl.getSubs(answers.link, options, function (err, files) {
                         if (err) throw err
 
@@ -220,9 +228,10 @@ function moveVideo() {
         var path = require('path');
 
         //gets file name and adds it to dir2
-        var f = path.basename(file);
-        var dest = path.resolve(dir2, f);
+        var f = path.basename(file); // get current position of file
+        var dest = path.resolve(dir2, f); // create destination path from current path ( destination path, current path )
 
+        //move file from current position to destination position
         fs.rename(file, dest, (err) => {
             if (err)    {
                 throw err;
@@ -233,7 +242,7 @@ function moveVideo() {
         });
     };
 
-    //move file from currentDIr to '/video'
+    //move file from currentDir to '/video'
     moveFile(infoVideo._filename, process.cwd() + "/video");
 
 }
