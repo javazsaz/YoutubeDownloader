@@ -17,7 +17,7 @@ connectDb();
 function connectDb() {
 
     //Connect to Mongo
-    mongoose.connect(dbConfig, { useNewUrlParser: true }).then(async () => {
+    mongoose.connect(dbConfig, { useNewUrlParser: true, useUnifiedTopology: true  }).then(async () => {
         console.log("Mongo DB connected!");
 
         // save the last access
