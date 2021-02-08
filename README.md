@@ -11,3 +11,8 @@ For use this software, please install:
 
  - Linux: sudo apt install ffmpeg
  - Windows: Download ffmpeg from: https://ffmpeg.zeranoe.com/builds/
+
+**MongoDB**
+
+Insert username, password and cluster name of your MongoDB database on /config/db.js file for save and obtain logs file.
+https://cloud.mongodb.com
