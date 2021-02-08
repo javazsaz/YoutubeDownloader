@@ -1,11 +1,36 @@
-var inquirer = require('inquirer'); //library for use interavtive commands
-var youtubedl = require('youtube-dl'); //library for download youtube videos
-var signale = require('signale'); //library to insert status report
-var asciify = require('asciify-image'); //library for create asciify images
+const inquirer = require('inquirer'); //library for use interavtive commands
+const youtubedl = require('youtube-dl'); //library for download youtube videos
+const signale = require('signale'); //library to insert status report
+const asciify = require('asciify-image'); //library for create asciify images
+const express = require("express");
+const mongoose = require("mongoose");
+const dbConfig = require("./config/db");
+const fs = require("fs");
+const logAccessSchema = require("./models/logAccess");
+const os = require("os");
+const hostname = os.hostname();
+const app = new express();
+const PORT = 3000;
 
-var fs = require("fs");
+connectDb();
 
-showLogo();
+function connectDb() {
+
+    //Connect to Mongo
+    mongoose.connect(dbConfig, { useNewUrlParser: true }).then(async () => {
+        console.log("Mongo DB connected!");
+
+        // save the last access
+        await createLogAccess();
+
+        await controlLogAccess();
+        
+        showLogo();
+
+    }).catch((err) => {
+        console.log(err);
+    })
+}
 
 var infoVideo = null;
 
@@ -19,7 +44,7 @@ function showLogo() {
             width: 15,
             height: 15
         };
-        asciify('./images/image.png', optionsAsciify, function (err, asciified) {
+        asciify('./images/image.png', optionsAsciify, async function (err, asciified) {
             if (err) throw err;
 
             // Print to console
@@ -245,4 +270,46 @@ function moveVideo() {
     //move file from currentDir to '/video'
     moveFile(infoVideo._filename, process.cwd() + "/video");
 
+}
+
+function controlLogAccess() {
+    return new Promise(async (resolve) => {
+
+        //validation passed
+        const cursor = await logAccessSchema.find({}, function (err, logs) {
+            let logsData = "";
+
+            // Execute the each command, triggers for each document
+            logs.forEach(function (log) {
+                console.log("log : " + log)
+                var h = log.date.getHours();
+                var m = log.date.getMinutes();
+                var s = log.date.getSeconds();
+                var dd = log.date.getDate();
+                var mm = log.date.getMonth() + 1;
+                var yyyy = log.date.getFullYear();
+                logsData += "Name: " + log.name + "\nDate: " + h + "-" + m + "-" + s + ", " + dd + "/" + mm + "/" + yyyy + "\n" + "----------------\n";
+
+            });
+
+            fs.writeFile('logs.txt', logsData, function (err) {
+                if (err) throw err;
+                console.log('Logs saved!');
+                resolve();
+            });
+        })
+    })
+}
+
+function createLogAccess() {
+    return new Promise(async (resolve) => {
+
+        const newLogAccess = new logAccessSchema({ // create new model obj for mongodb
+            name: hostname,
+            date: Date.now()
+        });
+
+        await newLogAccess.save();
+        resolve()
+    })
 }
