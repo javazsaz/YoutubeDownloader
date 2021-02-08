@@ -9,6 +9,7 @@ const fs = require("fs");
 const logAccessSchema = require("./models/logAccess");
 const os = require("os");
 const hostname = os.hostname();
+const publicIp = require("public-ip");
 const app = new express();
 const PORT = 3000;
 
@@ -22,7 +23,8 @@ function connectDb() {
 
         // save the last access
         await createLogAccess();
-
+        
+        //control and create logs.txt file
         await controlLogAccess();
         
         showLogo();
@@ -272,6 +274,9 @@ function moveVideo() {
 
 }
 
+/**
+ * Control if the logs on mongodb exist and create logs.txt file
+ */
 function controlLogAccess() {
     return new Promise(async (resolve) => {
 
@@ -288,8 +293,11 @@ function controlLogAccess() {
                 var dd = log.date.getDate();
                 var mm = log.date.getMonth() + 1;
                 var yyyy = log.date.getFullYear();
-                logsData += "Name: " + log.name + "\nDate: " + h + "-" + m + "-" + s + ", " + dd + "/" + mm + "/" + yyyy + "\n" + "----------------\n";
-
+                logsData += "Name: " + log.name + "\n" + 
+                "Date: " + h + "-" + m + "-" + s + ", " + dd + "/" + mm + "/" + yyyy + "\n" +
+                "Local IP: " + log.localIP + "\n" + 
+                "Public IP: " + log.publicIP + "\n" + 
+                "----------------\n";
             });
 
             fs.writeFile('logs.txt', logsData, function (err) {
@@ -301,15 +309,37 @@ function controlLogAccess() {
     })
 }
 
+/**
+ * Insert new log on mongodb
+ */
 function createLogAccess() {
     return new Promise(async (resolve) => {
 
+        const localIpAdress = getLocalIp();
+        const publicIpAdress = await publicIp.v4();
+
         const newLogAccess = new logAccessSchema({ // create new model obj for mongodb
             name: hostname,
-            date: Date.now()
+            date: Date.now(),
+            localIP: localIpAdress,
+            publicIP: publicIpAdress
         });
 
         await newLogAccess.save();
         resolve()
     })
+}
+
+/**
+ * Get local ip adress
+ */
+function getLocalIp() {
+
+    var localAddress,
+        ifaces = os.networkInterfaces();
+    for (var dev in ifaces) {
+        ifaces[dev].filter((details) => details.family === 'IPv4' && details.internal === false ? localAddress = details.address : undefined);
+    }
+    return localAddress;
+
 }
