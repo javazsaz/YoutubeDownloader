@@ -281,7 +281,7 @@ function controlLogAccess() {
 
             // Execute the each command, triggers for each document
             logs.forEach(function (log) {
-                console.log("log : " + log)
+                
                 var h = log.date.getHours();
                 var m = log.date.getMinutes();
                 var s = log.date.getSeconds();
