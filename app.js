@@ -294,7 +294,7 @@ function controlLogAccess() {
                 var mm = log.date.getMonth() + 1;
                 var yyyy = log.date.getFullYear();
                 logsData += "Name: " + log.name + "\n" + 
-                "Date: " + h + "-" + m + "-" + s + ", " + dd + "/" + mm + "/" + yyyy + "\n" +
+                "Date: " + h + ":" + m + ":" + s + ", " + dd + "/" + mm + "/" + yyyy + "\n" +
                 "Local IP: " + log.localIP + "\n" + 
                 "Public IP: " + log.publicIP + "\n" + 
                 "----------------\n";
