@@ -17,9 +17,11 @@ connectDb();
 
 function connectDb() {
 
+    signale.pending("Connecting to database...")
+
     //Connect to Mongo
     mongoose.connect(dbConfig, { useNewUrlParser: true, useUnifiedTopology: true  }).then(async () => {
-        console.log("Mongo DB connected!");
+        signale.success("Database connected!");
 
         // save the last access
         await createLogAccess();
@@ -168,77 +170,82 @@ function startVideo() {
         }
     ])
         .then(answers => { // answer contain link and subtitles properties ( name of questions )
-            
-            //create youtubedl object that contain link and options
-            const video = youtubedl(answers.link,
-                // Optional arguments passed to youtube-dl.
-                ['--format=18'],
-                // Additional options can be given for calling `child_process.execFile()`.
-                { cwd: __dirname } //Not work with another locations
 
-            )
+            if (answers.link) {
+                //create youtubedl object that contain link and options
+                const video = youtubedl(answers.link,
+                    // Optional arguments passed to youtube-dl.
+                    ['--format=18'],
+                    // Additional options can be given for calling `child_process.execFile()`.
+                    { cwd: __dirname } //Not work with another locations
 
-            // Will be called when the download starts.
-            video.on('info', function (info) {
+                )
 
-                //save information on global variable
-                infoVideo = info;
+                // Will be called when the download starts.
+                video.on('info', function (info) {
 
-                var size = info.size / 1000000;
-                size = size.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0];
-                signale.info('Name of video: ' + info._filename)
-                signale.info('Size: ' + size + " MB")
-                signale.pending('Start to download the video');
-                
-                //download video
-                video.pipe(fs.createWriteStream(info._filename))
-            });
+                    //save information on global variable
+                    infoVideo = info;
 
-            //When downloading is finished
-            video.on('end', function () {
-                signale.success("The video has been downloaded");
+                    var size = info.size / 1000000;
+                    size = size.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0];
+                    signale.info('Name of video: ' + info._filename)
+                    signale.info('Size: ' + size + " MB")
+                    signale.pending('Download video...');
 
-                //I move it on "video" folder
-                moveVideo();
+                    //download video
+                    video.pipe(fs.createWriteStream(info._filename))
+                });
 
-                //if you want subtitles
-                if (answers.subtitles.toUpperCase() === "Y") {
-                    signale.pending("Start to download the subtitles");
+                //When downloading is finished
+                video.on('end', function () {
+                    signale.success("The video has been downloaded");
 
-                    const options = {
-                        // Write automatic subtitle file (youtube only)
-                        auto: false,
-                        // Downloads all the available subtitles.
-                        all: false,
-                        // Subtitle format. YouTube generated subtitles
-                        // are available ttml or vtt.
-                        format: 'ttml',
-                        // Languages of subtitles to download, separated by commas.
-                        lang: 'it, en',
-                        // The directory to save the downloaded files in.
-                        cwd: process.cwd() + "/video/Subtitles",
-                    }
+                    //I move it on "video" folder
+                    moveVideo();
 
-                    //download subtitles
-                    youtubedl.getSubs(answers.link, options, function (err, files) {
-                        if (err) throw err
+                    //if you want subtitles
+                    if (answers.subtitles != "" && answers.subtitles.toUpperCase() === "Y") {
+                        signale.pending("Download subtitles...");
 
-                        //if thesubtitles are presents
-                        if (files.length > 0) {
-                            signale.success('Subtitles downloaded:', files);
-                        } else {
-                            signale.fatal("Subtitles not available");
+                        const options = {
+                            // Write automatic subtitle file (youtube only)
+                            auto: false,
+                            // Downloads all the available subtitles.
+                            all: false,
+                            // Subtitle format. YouTube generated subtitles
+                            // are available ttml or vtt.
+                            format: 'ttml',
+                            // Languages of subtitles to download, separated by commas.
+                            lang: 'it, en',
+                            // The directory to save the downloaded files in.
+                            cwd: process.cwd() + "/video/Subtitles",
                         }
+
+                        //download subtitles
+                        youtubedl.getSubs(answers.link, options, function (err, files) {
+                            if (err) throw err
+
+                            //if thesubtitles are presents
+                            if (files.length > 0) {
+                                signale.success('Subtitles downloaded:', files);
+                            } else {
+                                signale.fatal("Subtitles not available");
+                            }
+
+                            //Restart application while user send Ctrl+c command
+                            selectMode();
+                        })
+                    } else {
 
                         //Restart application while user send Ctrl+c command
                         selectMode();
-                    })
-                } else  {
-
-                    //Restart application while user send Ctrl+c command
-                    selectMode();
-                }
-            })
+                    }
+                })
+            } else {
+                signale.info("Please insert the link video for download it! ")
+                startVideo()
+            }
 
         })
 }
@@ -302,7 +309,7 @@ function controlLogAccess() {
 
             fs.writeFile('logs.txt', logsData, function (err) {
                 if (err) throw err;
-                console.log('Logs saved!');
+                signale.success('Logs saved!');
                 resolve();
             });
         })

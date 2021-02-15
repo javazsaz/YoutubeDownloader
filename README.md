@@ -1,5 +1,5 @@
 # YoutubeDownloader
-A software for download Youtube videos
+A software for download audio and videos from Youtube!
 
 For use this software, please install:
 
