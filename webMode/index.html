@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>YoutubeDownloader Web</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="assets/css/index.css">
+</head>
+
+<body style="text-align: center;">
+    <div style="opacity: 1;position: absolute;margin: auto;top: 0;right: 0;bottom: 0;left: 0;height: 50%;">
+        <h1 id="head"
+            style="color: #b1a400;font-size: 50px;font-family: Quicksand, sans-serif;text-align: center;filter: sepia(0%);">
+            Youtube Downloader</h1>
+        <div>
+            <ul>
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#downloadMediaModal">
+                        <img src="assets/img/./image.png">
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="downloadMediaModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Download</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group row">
+                        <label for="inputLink" class="col-sm-2 col-form-label">Link</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputLink" placeholder="Insert Link">
+                        </div>
+                    </div>
+                    <fieldset class="form-group">
+                        <div class="row">
+                            <legend class="col-form-label col-sm-2 pt-0">Mode</legend>
+                            <div class="col-sm-10 checkbox-group">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="videoMode" id="videoMode"
+                                        value="option1">
+                                    <label class="form-check-label" for="videoMode">
+                                        Video
+                                    </label>
+
+                                    <input class="form-check-input" type="checkbox" name="audioMode" id="audioMode"
+                                        value="option2">
+                                    <label class="form-check-label" for="audioMode">
+                                        Audio
+                                    </label>
+
+                                    <input class="form-check-input" type="checkbox" name="subtitles" id="subtitles"
+                                        value="option1">
+                                    <label class="form-check-label" for="subtitles">
+                                        Subtitles
+                                </div>
+                            </div>
+                        </div>
+                        <div id="row">
+                            <div class="loader"></div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btnDownloadMedia">Download</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous"></script>
+    <script src="js/index.js"></script>
+</body>
+
+</html>
