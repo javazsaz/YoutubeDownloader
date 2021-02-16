@@ -10,23 +10,23 @@ connectDb();
 
 function connectDb() {
 
-    //signale.pending("Connecting to database...")
+    signale.pending("Connecting to database...")
 
     //Connect to Mongo
-    //mongoose.connect(dbConfig, { useNewUrlParser: true, useUnifiedTopology: true  }).then(async () => {
-        //signale.success("Database connected!");
+    mongoose.connect(dbConfig, { useNewUrlParser: true, useUnifiedTopology: true  }).then(async () => {
+        signale.success("Database connected!");
 
         // save the last access
-        //await core.createLogAccess();
+        await core.createLogAccess();
         
         //control and create logs.txt file
-        //await core.controlLogAccess();
+        await core.controlLogAccess();
         
         showLogo();
 
-    //}).catch((err) => {
-     //   console.log(err);
-    //})
+    }).catch((err) => {
+        console.log(err);
+    })
 }
 
 var infoVideo = null;
