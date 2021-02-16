@@ -2,7 +2,6 @@ const inquirer = require('inquirer'); //library for use interavtive commands
 const youtubedl = require('youtube-dl'); //library for download youtube videos
 const signale = require('signale'); //library to insert status report
 const asciify = require('asciify-image'); //library for create asciify images
-const express = require("express");
 const mongoose = require("mongoose");
 const dbConfig = require("./config/db");
 const fs = require("fs");
@@ -10,8 +9,6 @@ const logAccessSchema = require("./models/logAccess");
 const os = require("os");
 const hostname = os.hostname();
 const publicIp = require("public-ip");
-const app = new express();
-const PORT = 3000;
 
 connectDb();
 
