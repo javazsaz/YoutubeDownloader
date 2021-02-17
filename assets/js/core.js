@@ -7,7 +7,8 @@ const logAccessSchema = require("../../models/logAccess");
 const os = require("os");
 const hostname = os.hostname();
 const publicIp = require("public-ip");
-const { resolve } = require('path');
+
+let nameVideo = "";
 
 /**
  * Show list modes : video or audio
@@ -215,6 +216,9 @@ function downloadVideo(link, subtitles, cliMode, callback) {
         //save information on global variable
         infoVideo = info;
 
+        //Save name of video to use when download file for client
+        nameVideo = info._filename;
+
         var size = info.size / 1000000;
         size = size.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0];
         signale.info('Name of video: ' + info._filename)
@@ -226,7 +230,7 @@ function downloadVideo(link, subtitles, cliMode, callback) {
     });
 
     //When downloading is finished
-    video.on('end', function () {
+    video.on('end', async function () {
         signale.success("The video has been downloaded");
 
         //I move it on "video" folder
@@ -251,7 +255,7 @@ function downloadVideo(link, subtitles, cliMode, callback) {
             }
 
             //download subtitles
-            youtubedl.getSubs(link, options, function (err, files) {
+            youtubedl.getSubs(link, options, async function (err, files) {
                 if (err) throw err
 
                 //if thesubtitles are presents
@@ -265,7 +269,7 @@ function downloadVideo(link, subtitles, cliMode, callback) {
                     //Restart application while user send Ctrl+c command
                     selectMode();
                 } else {
-                    callback("Video downloaded");
+                    callback({fileName: nameVideo, message:"Video: " + nameVideo + "has been downloaded"});
                 }
             })
         } else {
@@ -274,7 +278,7 @@ function downloadVideo(link, subtitles, cliMode, callback) {
                 //Restart application while user send Ctrl+c command
                 selectMode();
             } else {
-                callback("Video downloaded");
+                callback({fileName: nameVideo, message:"Video: " + nameVideo + " has been downloaded"});
             }
         }
     })
@@ -330,7 +334,7 @@ function downloadAudio(link, cliMode, callback) {
                 //ask new question: audio or video
                 selectMode();
             } else {
-                callback({success: "Audio downloaded"});
+                callback({fileName: data.videoTitle, message:"Audio: " + data.videoTitle + " has been downloaded"});
             }
         });
 

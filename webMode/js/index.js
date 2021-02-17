@@ -83,11 +83,11 @@ function downloadMedia(link, mode, subtitles)    {
         type : 'POST',
         data : {link: link, mode: mode, subtitles: subtitles},
         dataType:'json',
-        success : function(data) {        
-            if (data.error) {
-                toastr.error(data.error);
+        success : function(res) {        
+            if (res.error) {
+                toastr.error(res.error);
             } else {
-                toastr.success(data.success);
+                toastr.success(res.message);
             }      
 
             $(".loader").hide();

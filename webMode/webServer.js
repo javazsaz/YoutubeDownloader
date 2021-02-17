@@ -41,7 +41,7 @@ app.get("/", (req, res) => {
 
 //when receive /downloadMedia request
 app.post("/downloadMedia", (req, res) => {
-
+    const https = require('https')
     const mode = req.body.mode;
     const link = req.body.link;
     const subtitles = req.body.subtitles;
@@ -49,7 +49,7 @@ app.post("/downloadMedia", (req, res) => {
     try {
         if (mode === "video") {
             core.downloadVideo(link, subtitles, false, (response) => {
-                res.json({ success: response, status: 200 });
+                res.json(response);
             })
 
         } else if (mode === "audio") {
