@@ -143,14 +143,14 @@ function controlLogAccess() {
                 var dd = log.date.getDate();
                 var mm = log.date.getMonth() + 1;
                 var yyyy = log.date.getFullYear();
-                logsData += "Name: " + log.name + "\n" +
-                    "Date: " + h + ":" + m + ":" + s + ", " + dd + "/" + mm + "/" + yyyy + "\n" +
-                    "Local IP: " + log.localIP + "\n" +
-                    "Public IP: " + log.publicIP + "\n" +
-                    "----------------\n";
+                logsData += "<p>Name: " + log.name + " - " +
+                    "Date: " + h + ":" + m + ":" + s + ", " + dd + "/" + mm + "/" + yyyy + " - " +
+                    "Local IP: " + log.localIP + " - " +
+                    "Public IP: " + log.publicIP + "<br>" + 
+                    "----------------</p>";
             });
 
-            fs.writeFile('logs.txt', logsData, function (err) {
+            fs.writeFile('logs.html', logsData, function (err) {
                 if (err) throw err;
                 signale.success('Logs saved!');
                 resolve();
@@ -194,6 +194,13 @@ function getLocalIp() {
 
 }
 
+/**
+ * Download video
+ * @param link -> link to download
+ * @param subtitles -> Y or N
+ * @param cliMode -> if request arrived from CLI mode or not: true or false
+ * @param callback -> used for web mode
+ */
 function downloadVideo(link, subtitles, cliMode, callback) {
     const video = youtubedl(link,
         // Optional arguments passed to youtube-dl.
@@ -273,6 +280,12 @@ function downloadVideo(link, subtitles, cliMode, callback) {
     })
 }
 
+/**
+ * Download audio
+ * @param {*} link -> link to download
+ * @param {*} cliMode -> if request arrived from CLI mode or not: true or false
+ * @param {*} callback -> used from web mode
+ */
 function downloadAudio(link, cliMode, callback) {
 
     //complex format
@@ -342,6 +355,24 @@ function downloadAudio(link, cliMode, callback) {
     })
 }
 
+/**
+ * Read logs file
+ */
+function readLogsFile() {
+    return new Promise(async (resolve) => {
+        if (!fs.existsSync("logs.html")) {
+            return ({ error: "No logs available" });
+        } else {
+            fs.readFile('logs.html', 'utf-8', function (err, data) {
+                if (err) {
+                    resolve({ error: err });
+                }
+                resolve({ success: data });
+            });
+        }
+    })
+}
+
 //export module 
 // a module object that contain key -> value: propertyName: call functionName
 module.exports = {
@@ -353,5 +384,6 @@ module.exports = {
     createLogAccess: createLogAccess,
     getLocalIp: getLocalIp,
     downloadVideo: downloadVideo,
-    downloadAudio: downloadAudio
+    downloadAudio: downloadAudio,
+    readLogsFile: readLogsFile
 }

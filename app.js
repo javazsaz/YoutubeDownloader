@@ -25,7 +25,7 @@ function connectDb() {
         showLogo();
 
     }).catch((err) => {
-        console.log(err);
+        //console.log(err);
     })
 }
 

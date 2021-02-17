@@ -7,27 +7,47 @@
     <title>YoutubeDownloader Web</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css"
+        integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g=="
+        crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
     <link rel="stylesheet" href="assets/css/index.css">
 </head>
 
 <body style="text-align: center;">
+    <div class="pos-f-t">
+        <div class="collapse" id="navbarToggleExternalContent">
+          <div class="bg-dark p-4">
+            <h4 class="text-white">Control panel</h4>
+          </div>
+          <div class="bg-dark p-1">
+            <label class="text-white" data-toggle="modal" data-target="#logsModal">Logs</label>
+          </div>
+          
+        </div>
+        <nav class="navbar navbar-dark bg-dark">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </nav>
+      </div>
+    
+    <div class="blockDuringDownload" style="display: none;"></div>
     <div style="opacity: 1;position: absolute;margin: auto;top: 0;right: 0;bottom: 0;left: 0;height: 50%;">
         <h1 id="head"
             style="color: #b1a400;font-size: 50px;font-family: Quicksand, sans-serif;text-align: center;filter: sepia(0%);">
             Youtube Downloader</h1>
-        <div>
-            <ul>
-                <li>
-                    <a href="#" data-toggle="modal" data-target="#downloadMediaModal">
-                        <img src="assets/img/./image.png">
-                    </a>
-                </li>
-            </ul>
+        <div class="btnContainer">
+
+            <div class="imgContainer">
+                <a href="#" data-toggle="modal" data-target="#downloadMediaModal">
+                    <img src="assets/img/./image.png">
+                </a>
+            </div>
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal for download media -->
     <div class="modal fade" id="downloadMediaModal" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -53,23 +73,25 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="videoMode" id="videoMode"
                                         value="option1">
-                                    <label class="form-check-label" for="videoMode">
+                                    <label class="form-check-label labelMode" for="videoMode">
                                         Video
                                     </label>
 
                                     <input class="form-check-input" type="checkbox" name="audioMode" id="audioMode"
                                         value="option2">
-                                    <label class="form-check-label" for="audioMode">
+                                    <label class="form-check-label labelMode" for="audioMode">
                                         Audio
                                     </label>
 
                                     <input class="form-check-input" type="checkbox" name="subtitles" id="subtitles"
                                         value="option1">
-                                    <label class="form-check-label" for="subtitles">
+                                    <label class="form-check-label labelMode" for="subtitles">
                                         Subtitles
                                 </div>
                             </div>
                         </div>
+
+                        <!-- LOADING EFFECT -->
                         <div id="row">
                             <div class="loader"></div>
                         </div>
@@ -82,9 +104,31 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal for show logs -->
+    <div class="modal fade bd-example-modal-lg" id="logsModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Logs</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body logsModalBody">
+                    <!-- logs -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+        integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
+        crossorigin="anonymous"></script>
     <script src="js/index.js"></script>
 </body>
 

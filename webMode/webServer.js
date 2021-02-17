@@ -60,6 +60,15 @@ app.post("/downloadMedia", (req, res) => {
     } catch (err) {
         res.json({ error: err });
     }
+});
+
+/**
+ * Request for get logs
+ */
+app.get("/getLogs", async (req, res)  =>  {
+
+    let logs = await core.readLogsFile();
+    res.json(logs);
 })
 
 module.exports = createServer;
