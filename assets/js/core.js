@@ -132,7 +132,7 @@ function controlLogAccess() {
     return new Promise(async (resolve) => {
 
         //validation passed
-        const cursor = await logAccessSchema.find({}, function (err, logs) {
+        logAccessSchema.find({}, function (err, logs) {
             let logsData = "";
 
             // Execute the each command, triggers for each document
