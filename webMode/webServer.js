@@ -41,7 +41,6 @@ app.get("/", (req, res) => {
 
 //when receive /downloadMedia request
 app.post("/downloadMedia", (req, res) => {
-    const https = require('https')
     const mode = req.body.mode;
     const link = req.body.link;
     const subtitles = req.body.subtitles;
