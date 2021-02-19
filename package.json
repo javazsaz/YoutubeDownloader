@@ -1,6 +1,6 @@
 {
   "name": "youtubedownloader",
-  "version": "3.0.2",
+  "version": "3.0.5",
   "description": "A software for download youtube videos",
   "main": "app.js",
   "scripts": {
@@ -15,7 +15,7 @@
     "open": "^7.4.1",
     "public-ip": "^4.0.3",
     "signale": "1.4.0",
-    "youtube-dl": "^3.4.0",
+    "youtube-dl": "3.0.0",
     "youtube-mp3-downloader": "^0.7.6"
   },
   "author": "Morris Penasso",
