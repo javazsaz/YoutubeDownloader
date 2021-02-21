@@ -1,6 +1,8 @@
 # YoutubeDownloader
 A software for download audio and videos from Youtube!
 
+**I am not responsible for any illegal activity that is performed with this software. This software has been created for only study purpose**.
+
 For use this software, please install:
 
 **Nodejs**
