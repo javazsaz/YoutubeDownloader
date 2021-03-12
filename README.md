@@ -12,7 +12,12 @@ For use this software, please install:
 **ffmpeg**
 
  - Linux: sudo apt install ffmpeg
- - Windows: Download ffmpeg from: https://ffmpeg.zeranoe.com/builds/
+ - Windows: Download ffmpeg from: https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-full.7z
+
+ For Windows: 
+  - Extract folder, rename it with "FFmpeg" name, copy and past it on C:/ path.
+  - Open command prompt with admin privileges, and launch this command: setx /m PATH "C:\FFmpeg\bin;%PATH%"
+  - Verify that ffmpeg work with command: ffmpeg --version
 
 **MongoDB**
 
