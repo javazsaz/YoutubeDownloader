@@ -1,6 +1,6 @@
 {
   "name": "youtubedownloader",
-  "version": "3.0.5",
+  "version": "3.0.6",
   "description": "A software for download youtube videos",
   "main": "app.js",
   "scripts": {
@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "asciify-image": "0.1.6",
+    "chalk-animation": "^1.6.0",
     "express": "^4.17.1",
     "inquirer": "7.3.3",
     "jpeg-js": "0.4.0",

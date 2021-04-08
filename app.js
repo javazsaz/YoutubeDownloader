@@ -5,15 +5,23 @@ const mongoose = require("mongoose");
 const dbConfig = require("./config/db");
 const createServer = require("./webMode/webServer");
 const core = require("./assets/js/core");
+const chalkAnimation = require('chalk-animation'); // library to create animations
 
-connectDb();
+const readline = require('readline');
+readline.emitKeypressEvents(process.stdin);
+process.stdin.setRawMode(true);
 
+const msgRainbow1 = chalkAnimation.rainbow("Connecting to database...")
+
+setTimeout(() => {
+    connectDb();
+}, 2000)
 function connectDb() {
-
-    signale.pending("Connecting to database...")
 
     //Connect to Mongo
     mongoose.connect(dbConfig, { useNewUrlParser: true, useUnifiedTopology: true  }).then(async () => {
+
+        msgRainbow1.stop();
         signale.success("Database connected!");
 
         // save the last access
@@ -46,8 +54,15 @@ function showLogo() {
 
             // Print to console
             console.log(asciified);
+            const msgRainbow2 = chalkAnimation.rainbow("Welcome in YoutubeDownloader! Version: " + require("./package.json").version + "\nPress Enter to start")
 
-            webOrCli();
+            process.stdin.on('keypress', function (key, data) {
+                if (data.name === "return") {
+                    webOrCli();
+                    msgRainbow2.stop();
+                }
+            });
+            
         })
 }
 
