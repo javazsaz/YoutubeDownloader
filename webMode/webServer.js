@@ -47,7 +47,7 @@ app.post("/downloadMedia", (req, res) => {
 
     try {
         if (mode === "video") {
-            core.downloadVideo(link, subtitles, false, (response) => {
+            core.downloadVideo(link, false, (response) => {
                 res.json(response);
             })
 

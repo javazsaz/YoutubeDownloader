@@ -1,6 +1,6 @@
 {
   "name": "youtubedownloader",
-  "version": "3.0.5",
+  "version": "3.1.0",
   "description": "A software for download youtube videos",
   "main": "app.js",
   "scripts": {
@@ -8,16 +8,19 @@
   },
   "dependencies": {
     "asciify-image": "0.1.6",
+    "dns-packet": ">=5.2.2",
     "express": "^4.17.1",
     "inquirer": "7.3.3",
     "jpeg-js": "0.4.0",
+    "lodash": ">=4.17.21",
     "mongoose": "^5.11.15",
+    "normalize-url": ">=4.5.1",
     "open": "^7.4.1",
     "public-ip": "^4.0.3",
     "signale": "1.4.0",
-    "youtube-dl": "^3.0.0",
+    "trim-newlines": ">=3.0.1",
     "youtube-mp3-downloader": "^0.7.6",
-    "ytdl-core": "^4.5.0"
+    "ytdl-core": "^4.8.2"
   },
   "author": "Morris Penasso",
   "license": "MIT"

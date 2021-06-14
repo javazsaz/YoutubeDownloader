@@ -1,4 +1,4 @@
-const youtubedl = require('youtube-dl'); //library for download youtube videos
+const youtubedl = require('ytdl-core'); //library for download youtube videos
 const YoutubeMp3Downloader = require("youtube-mp3-downloader"); // get module for download audio
 const signale = require('signale'); //library to insert status report
 const inquirer = require('inquirer'); //library for use interavtive commands
@@ -84,7 +84,7 @@ function startVideo() {
 
             if (answers.link) {
 
-                downloadVideo(answers.link, answers.subtitles, true);
+                downloadVideo(answers.link, true);
 
             } else {
                 signale.info("Please insert the link video for download it! ")
@@ -92,37 +92,6 @@ function startVideo() {
             }
 
         })
-}
-
-/**
- * Move video file on "video" folder
- */
-function moveVideo() {
-
-    //moves the $file to $dir2
-    var moveFile = function (file, dir2) {
-
-        //include the path modules
-        var path = require('path');
-
-        //gets file name and adds it to dir2
-        var f = path.basename(file); // get current position of file
-        var dest = path.resolve(dir2, f); // create destination path from current path ( destination path, current path )
-
-        //move file from current position to destination position
-        fs.rename(file, dest, (err) => {
-            if (err) {
-                throw err;
-            }
-            else {
-                //console.log('Successfully moved');
-            }
-        });
-    };
-
-    //move file from currentDir to '/video'
-    moveFile(infoVideo._filename, process.cwd() + "/video");
-
 }
 
 /**
@@ -198,88 +167,27 @@ function getLocalIp() {
 /**
  * Download video
  * @param link -> link to download
- * @param subtitles -> Y or N
  * @param cliMode -> if request arrived from CLI mode or not: true or false
  * @param callback -> used for web mode
  */
-function downloadVideo(link, subtitles, cliMode, callback) {
-    const video = youtubedl(link,
-        // Optional arguments passed to youtube-dl.
-        ['--format=18'],
-        // Additional options can be given for calling `child_process.execFile()`.
-        { cwd: __dirname } //Not work with another locations
+function downloadVideo(link, cliMode, callback) {
 
-    )
+    const id = getIdFromLink(link);
 
-    // Will be called when the download starts.
-    video.on('info', function (info) {
-        //save information on global variable
-        infoVideo = info;
+    youtubedl.getInfo(id).then(info => {
 
-        //Save name of video to use when download file for client
-        nameVideo = info._filename;
+        const videoTitle = info.videoDetails.title;
 
-        var size = info.size / 1000000;
-        size = size.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0];
-        signale.info('Name of video: ' + info._filename)
-        signale.info('Size: ' + size + " MB")
-        signale.pending('Download video...');
+        youtubedl(link)
+            .pipe(fs.createWriteStream(process.cwd() + "/video/" + videoTitle + ".mp4"));
 
-        //download video
-        video.pipe(fs.createWriteStream(info._filename))
-    });
+        signale.success("The video: " + videoTitle + " has been downloaded");
 
-    //When downloading is finished
-    video.on('end', async function () {
-        signale.success("The video has been downloaded");
-
-        //I move it on "video" folder
-        moveVideo();
-
-        //if you want subtitles
-        if (subtitles != "" && subtitles.toUpperCase() === "Y") {
-            signale.pending("Download subtitles...");
-
-            const options = {
-                // Write automatic subtitle file (youtube only)
-                auto: false,
-                // Downloads all the available subtitles.
-                all: false,
-                // Subtitle format. YouTube generated subtitles
-                // are available ttml or vtt.
-                format: 'ttml',
-                // Languages of subtitles to download, separated by commas.
-                lang: 'it, en',
-                // The directory to save the downloaded files in.
-                cwd: process.cwd() + "/video/Subtitles",
-            }
-
-            //download subtitles
-            youtubedl.getSubs(link, options, async function (err, files) {
-                if (err) throw err
-
-                //if thesubtitles are presents
-                if (files.length > 0) {
-                    signale.success('Subtitles downloaded:', files);
-                } else {
-                    signale.fatal("Subtitles not available");
-                }
-
-                if (cliMode) {
-                    //Restart application while user send Ctrl+c command
-                    selectMode();
-                } else {
-                    callback({fileName: nameVideo, message:"Video: " + nameVideo + "has been downloaded"});
-                }
-            })
+        if (cliMode) {
+            //Restart application while user send Ctrl+c command
+            selectMode();
         } else {
-
-            if (cliMode) {
-                //Restart application while user send Ctrl+c command
-                selectMode();
-            } else {
-                callback({fileName: nameVideo, message:"Video: " + nameVideo + " has been downloaded"});
-            }
+            callback({fileName: videoTitle, message:"Video: " + videoTitle + " has been downloaded"});
         }
     })
 }
@@ -292,17 +200,8 @@ function downloadVideo(link, subtitles, cliMode, callback) {
  */
 function downloadAudio(link, cliMode, callback) {
 
-    //complex format
-    if (link.indexOf("&") != -1) {
+    link = getIdFromLink(link);
 
-        //get only id of link - you can download audio to get id
-        link = link.substring(link.indexOf("v=") + 2, link.indexOf("&"))
-
-        //simple format
-    } else {
-        //get only id of link - you can download audio to get id
-        link = link.substring(link.indexOf("v=") + 2, link.length)
-    }
     new Promise(function (resolve, reject) {
 
         //Configure YoutubeMp3Downloader with your settings
@@ -377,13 +276,34 @@ function readLogsFile() {
     })
 }
 
+/**
+ * Get id from link
+ * @param {*} link -> URL to video
+ * @returns -> id
+ */
+function getIdFromLink(link)    {
+    
+    //complex format
+    if (link.indexOf("&") != -1) {
+
+        //get only id of link - you can download audio to get id
+        link = link.substring(link.indexOf("v=") + 2, link.indexOf("&"))
+
+        //simple format
+    } else {
+        //get only id of link - you can download audio to get id
+        link = link.substring(link.indexOf("v=") + 2, link.length)
+    }
+
+    return link;
+}
+
 //export module 
 // a module object that contain key -> value: propertyName: call functionName
 module.exports = {
     selectMode: selectMode,
     startAudio: startAudio,
     startVideo: startVideo,
-    moveVideo: moveVideo,
     controlLogAccess: controlLogAccess,
     createLogAccess: createLogAccess,
     getLocalIp: getLocalIp,
