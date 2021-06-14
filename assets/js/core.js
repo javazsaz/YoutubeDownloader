@@ -73,11 +73,6 @@ function startVideo() {
             type: "question", // type
             name: "link", //response name
             message: "What is the video link? Ctrl+c to exit" // question
-        },
-        {
-            type: "question",
-            name: "subtitles",
-            message: "Download the subtitles? (Y/N)"
         }
     ])
         .then(answers => { // answer contain link and subtitles properties ( name of questions )
