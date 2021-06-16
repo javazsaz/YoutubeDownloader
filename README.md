@@ -1,4 +1,6 @@
 # YoutubeDownloader
+<img src="https://github.com/MorrisPenasso/YoutubeDownloader/blob/master/images/icon.ico" style=" width:50px; height:50px"/>
+
 A software for download audio and videos from Youtube!
 
 **I am not responsible for any illegal activity that is performed with this software. This software has been created for only study purpose**.
