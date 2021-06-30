@@ -15,23 +15,19 @@ $(document).ready(()    =>  {
     //when click on download button for download media
     $('#downloadMediaModal').on('show.bs.modal', function (e) {
 
-        $("#subtitles").prop('disabled', true);    //disable subtitles  
         $("#previewMode").prop("disabled", true)    //disable previewMode  
 
         //When video mode is clicked
         $("#videoMode").on("click", () => {
 
             if ($("#videoMode").is(":checked")) {
-                $("#subtitles").prop('disabled', false);  //enable subtitles
                 $("#previewMode").prop("disabled", false) //enable preview mode  
 
                 $("#audioMode").prop('checked', false);   //delete previous check on audio 
             } else {
-                $("#subtitles").prop('disabled', true);  //enable subtitles
-                $("#previewMode").prop("disabled", true) //enable preview mode  
+                $("#previewMode").prop("disabled", true) //disable preview mode  
                 
                 $("#audioMode").prop('checked', false);   //delete previous check on audio 
-                $("#subtitles").prop('checked', false);   //delete previous check on subtitles 
                 $("#previewMode").prop('checked', false);   //delete previous check on previewMode 
 
                 //delete last preview video
@@ -41,10 +37,8 @@ $(document).ready(()    =>  {
 
         //if click on audioMode
         $("#audioMode").on("click", () => {
-            $("#subtitles").prop('disabled', true);    //disable subtitles  
             $("#previewMode").prop("disabled", true)    //disable previewMode  
 
-            $("#subtitles").prop('checked', false);    // delete previous check on subtitles
             $("#videoMode").prop('checked', false);    // delete previous check on video
             $("#previewMode").prop('checked', false);    // delete previous check on previewMode
 
@@ -98,13 +92,7 @@ $(document).ready(()    =>  {
                     mode = "audio";
                 }
 
-                //get subtitles
-                let subtitles = "N";
-                if ($("#subtitles").is(":checked")) {
-                    subtitles = "Y";
-                }
-
-                downloadMedia(link, mode, subtitles);
+                downloadMedia(link, mode);
             } else {
                 toastr.error("Please compile all fields")
             }
@@ -116,9 +104,8 @@ $(document).ready(()    =>  {
  * Download media
  * @param link -> link to download 
  * @param mode -> mode: audio or video
- * @param subtitles -> subtitles: Y or N
  */
-function downloadMedia(link, mode, subtitles)    {
+function downloadMedia(link, mode)    {
 
     //show loading effect
     $(".loader").show();
@@ -130,7 +117,7 @@ function downloadMedia(link, mode, subtitles)    {
 
         url : "http://localhost:8080/downloadMedia",
         type : 'POST',
-        data : {link: link, mode: mode, subtitles: subtitles},
+        data : {link: link, mode: mode},
         dataType:'json',
         success : function(res) {        
             if (res.error) {

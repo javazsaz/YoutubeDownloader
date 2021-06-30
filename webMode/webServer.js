@@ -43,7 +43,6 @@ app.get("/", (req, res) => {
 app.post("/downloadMedia", (req, res) => {
     const mode = req.body.mode;
     const link = req.body.link;
-    const subtitles = req.body.subtitles;
 
     try {
         if (mode === "video") {

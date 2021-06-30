@@ -52,7 +52,7 @@ function startAudio() {
             // parameters
             type: "question", // type
             name: "link", //response name
-            message: "What is the audio id? Ctrl+c to exit" // question
+            message: "What is the audio link? Ctrl+c to exit" // question
         }
     ])
         .then(answer => { // answer contain link property ( name property of question )
@@ -174,16 +174,18 @@ function downloadVideo(link, cliMode, callback) {
         const videoTitle = info.videoDetails.title;
 
         youtubedl(link)
-            .pipe(fs.createWriteStream(process.cwd() + "/video/" + videoTitle + ".mp4"));
+            .pipe(fs.createWriteStream(process.cwd() + "/video/" + videoTitle + ".mp4")).on("finish", function () {
 
-        signale.success("The video: " + videoTitle + " has been downloaded");
+                //Message on terminal
+                signale.success("The video: " + videoTitle + " has been downloaded");
 
-        if (cliMode) {
-            //Restart application while user send Ctrl+c command
-            selectMode();
-        } else {
-            callback({fileName: videoTitle, message:"Video: " + videoTitle + " has been downloaded"});
-        }
+                if (cliMode) {
+                    //Restart application while user send Ctrl+c command
+                    selectMode();
+                } else {
+                    callback({ fileName: videoTitle, message: "Video: " + videoTitle + " has been downloaded" });
+                }
+            });
     })
 }
 

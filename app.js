@@ -29,8 +29,6 @@ function connectDb() {
     })
 }
 
-var infoVideo = null;
-
 /**
  * Show  or not application logo and start application
  */
