@@ -25,7 +25,7 @@ function connectDb() {
         showLogo();
 
     }).catch((err) => {
-        //console.log(err);
+        signale.error("Authentication failed! " + err.codeName + " - Error code: " + err.code);
     })
 }
 
