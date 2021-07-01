@@ -2,31 +2,59 @@ const signale = require('signale'); //library to insert status report
 const inquirer = require('inquirer'); //library for use interavtive commands
 const asciify = require('asciify-image'); //library for create asciify images
 const mongoose = require("mongoose");
-const dbConfig = require("./config/db");
+const dbConfig = require("./config/db"); // For obtain all options to connect on MongoDB
 const createServer = require("./webMode/webServer");
 const core = require("./assets/js/core");
 
 connectDb();
 
+/**
+ * Connect to MongoDB
+ */
 function connectDb() {
 
-    signale.pending("Connecting to database...")
+    //Ask username and password for MongoDB
+    inquirer.prompt([
+        {
+            // parameters
+            type: "input",
+            name: "username", 
+            message: "Insert the username - Ctrl+c to exit" // question
+        },
+        {
+            // parameters
+            type: "password",
+            name: "password",
+            message: "Insert password - Ctrl+c to exit" // question
+        }
+    ])
+        .then(answer => { // answer contain username and password property ( name property of question )
 
-    //Connect to Mongo
-    mongoose.connect(dbConfig.MongoUri, { useNewUrlParser: true, useUnifiedTopology: true  }).then(async () => {
-        signale.success("Database connected!");
+            dbConfig.username = answer.username;
+            dbConfig.password = answer.password;
+            dbConfig.MongoUri = "mongodb+srv://" + dbConfig.username + ":" + dbConfig.password + "@cluster-youtubedownload.v9azt.mongodb.net/youtubeDownloadDB?retryWrites=true&w=majority"
 
-        // save the last access
-        await core.createLogAccess(dbConfig.username);
-        
-        //control and create logs.txt file
-        await core.controlLogAccess();
-        
-        showLogo();
+            signale.pending("Connecting to database...")
 
-    }).catch((err) => {
-        signale.error("Authentication failed! " + err.codeName + " - Error code: " + err.code);
-    })
+            //Connect to Mongo
+            mongoose.connect(dbConfig.MongoUri, { useNewUrlParser: true, useUnifiedTopology: true }).then(async () => {
+                signale.success("Database connected!");
+
+                // save the last access
+                await core.createLogAccess(dbConfig.username);
+
+                //control and create/update logs.txt file
+                await core.controlLogAccess();
+
+                showLogo();
+
+            }).catch((err) => {
+                signale.error("Authentication failed! " + err.codeName + " - Error code: " + err.code);
+
+                //Retry to connect
+                connectDb();
+            })
+        })
 }
 
 /**
