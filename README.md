@@ -23,5 +23,5 @@ For use this software, please install:
 
 **MongoDB**
 
-Insert username, password and cluster name of your MongoDB database on /config/db.js file for save and obtain logs file.
-https://cloud.mongodb.com
+Insert username, password and cluster name of your MongoDB database for save and obtain logs file.
+Create one at this link: https://cloud.mongodb.com
