@@ -1,0 +1,1782 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset='utf-8'>
+  <title>youtubedownloader 3.2.2 | Documentation</title>
+  <meta name='description' content='A software for download youtube videos'>
+  <meta name='viewport' content='width=device-width,initial-scale=1'>
+  <link href='assets/bass.css' rel='stylesheet'>
+  <link href='assets/style.css' rel='stylesheet'>
+  <link href='assets/github.css' rel='stylesheet'>
+  <link href='assets/split.css' rel='stylesheet'>
+</head>
+<body class='documentation m0'>
+    <div class='flex'>
+      <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
+        <div class='py1 px2'>
+          <h3 class='mb0 no-anchor'>youtubedownloader</h3>
+          <div class='mb1'><code>3.2.2</code></div>
+          <input
+            placeholder='Filter'
+            id='filter-input'
+            class='col12 block input'
+            spellcheck='false'
+            autocapitalize='off'
+            autocorrect='off'
+            type='text' />
+          <div id='toc'>
+            <ul class='list-reset h5 py1-ul'>
+              
+                
+                <li><a
+                  href='#connectdb'
+                  class="">
+                  connectDb
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#showlogo'
+                  class="">
+                  showLogo
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#weborcli'
+                  class="">
+                  webOrCli
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#selectmode'
+                  class="">
+                  selectMode
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#startaudio'
+                  class="">
+                  startAudio
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#startvideo'
+                  class="">
+                  startVideo
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#controllogaccess'
+                  class="">
+                  controlLogAccess
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#createlogaccess'
+                  class="">
+                  createLogAccess
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#getlocalip'
+                  class="">
+                  getLocalIp
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#downloadvideo'
+                  class="">
+                  downloadVideo
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#downloadaudio'
+                  class="">
+                  downloadAudio
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#readlogsfile'
+                  class="">
+                  readLogsFile
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#getidfromlink'
+                  class="">
+                  getIdFromLink
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#db'
+                  class="">
+                  db
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#server'
+                  class="">
+                  server
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#downloadmedia'
+                  class="">
+                  downloadMedia
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#getlogs'
+                  class="">
+                  getLogs
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#setpreviewvideo'
+                  class="">
+                  setPreviewVideo
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#getembedcode'
+                  class="">
+                  getEmbedCode
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#use'
+                  class="">
+                  use
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#createserver'
+                  class="">
+                  createServer
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#openpage'
+                  class="">
+                  openPage
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#get'
+                  class="">
+                  get
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#get'
+                  class="">
+                  get
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#post'
+                  class="">
+                  post
+                  
+                </a>
+                
+                </li>
+              
+            </ul>
+          </div>
+          <div class='mt1 h6 quiet'>
+            <a href='https://documentation.js.org/reading-documentation.html'>Need help reading this?</a>
+          </div>
+        </div>
+      </div>
+      <div id='split-right' class='relative overflow-auto height-viewport-100'>
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='connectdb'>
+      connectDb
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/MorrisPenasso/YoutubeDownloader/blob/4c3a557ef00b3f658aaff78b4805d36402644dfa/app.js#L14-L58'>
+      <span>app.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Connect to MongoDB</p>
+
+    <div class='pre p1 fill-light mt0'>connectDb()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='showlogo'>
+      showLogo
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/MorrisPenasso/YoutubeDownloader/blob/4c3a557ef00b3f658aaff78b4805d36402644dfa/app.js#L63-L78'>
+      <span>app.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Show  or not application logo and start application</p>
+
+    <div class='pre p1 fill-light mt0'>showLogo()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='weborcli'>
+      webOrCli
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/MorrisPenasso/YoutubeDownloader/blob/4c3a557ef00b3f658aaff78b4805d36402644dfa/app.js#L83-L110'>
+      <span>app.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Web mode or CLI mode</p>
+
+    <div class='pre p1 fill-light mt0'>webOrCli()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='selectmode'>
+      selectMode
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/MorrisPenasso/YoutubeDownloader/blob/4c3a557ef00b3f658aaff78b4805d36402644dfa/assets/js/core.js#L16-L43'>
+      <span>assets/js/core.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Show list modes : video or audio</p>
+
+    <div class='pre p1 fill-light mt0'>selectMode()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='startaudio'>
+      startAudio
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/MorrisPenasso/YoutubeDownloader/blob/4c3a557ef00b3f658aaff78b4805d36402644dfa/assets/js/core.js#L48-L62'>
+      <span>assets/js/core.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>For start the download audio</p>
+
+    <div class='pre p1 fill-light mt0'>startAudio()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='startvideo'>
+      startVideo
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/MorrisPenasso/YoutubeDownloader/blob/4c3a557ef00b3f658aaff78b4805d36402644dfa/assets/js/core.js#L68-L90'>
+      <span>assets/js/core.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>For start the download video</p>
+
+    <div class='pre p1 fill-light mt0'>startVideo()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='controllogaccess'>
+      controlLogAccess
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/MorrisPenasso/YoutubeDownloader/blob/4c3a557ef00b3f658aaff78b4805d36402644dfa/assets/js/core.js#L95-L125'>
+      <span>assets/js/core.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Control if the logs on mongodb exist and create logs.txt file</p>
+
+    <div class='pre p1 fill-light mt0'>controlLogAccess()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='createlogaccess'>
+      createLogAccess
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/MorrisPenasso/YoutubeDownloader/blob/4c3a557ef00b3f658aaff78b4805d36402644dfa/assets/js/core.js#L132-L149'>
+      <span>assets/js/core.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Insert new log on mongodb</p>
+
+    <div class='pre p1 fill-light mt0'>createLogAccess(username: any)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>username</span> <code class='quiet'>(any)</code>
+	    -> Username logged
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='getlocalip'>
+      getLocalIp
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/MorrisPenasso/YoutubeDownloader/blob/4c3a557ef00b3f658aaff78b4805d36402644dfa/assets/js/core.js#L154-L163'>
+      <span>assets/js/core.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Get local ip adress</p>
+
+    <div class='pre p1 fill-light mt0'>getLocalIp()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='downloadvideo'>
+      downloadVideo
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/MorrisPenasso/YoutubeDownloader/blob/4c3a557ef00b3f658aaff78b4805d36402644dfa/assets/js/core.js#L171-L193'>
+      <span>assets/js/core.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Download video</p>
+
+    <div class='pre p1 fill-light mt0'>downloadVideo(link: any, cliMode: any, callback: any)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>link</span> <code class='quiet'>(any)</code>
+	    -> link to download
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>cliMode</span> <code class='quiet'>(any)</code>
+	    -> if request arrived from CLI mode or not: true or false
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>callback</span> <code class='quiet'>(any)</code>
+	    -> used for web mode
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='downloadaudio'>
+      downloadAudio
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/MorrisPenasso/YoutubeDownloader/blob/4c3a557ef00b3f658aaff78b4805d36402644dfa/assets/js/core.js#L201-L259'>
+      <span>assets/js/core.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Download audio</p>
+
+    <div class='pre p1 fill-light mt0'>downloadAudio(link: any, cliMode: any, callback: any)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>link</span> <code class='quiet'>(any)</code>
+	    -> link to download
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>cliMode</span> <code class='quiet'>(any)</code>
+	    -> if request arrived from CLI mode or not: true or false
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>callback</span> <code class='quiet'>(any)</code>
+	    -> used from web mode
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='readlogsfile'>
+      readLogsFile
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/MorrisPenasso/YoutubeDownloader/blob/4c3a557ef00b3f658aaff78b4805d36402644dfa/assets/js/core.js#L264-L277'>
+      <span>assets/js/core.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Read logs file</p>
+
+    <div class='pre p1 fill-light mt0'>readLogsFile()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='getidfromlink'>
+      getIdFromLink
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/MorrisPenasso/YoutubeDownloader/blob/4c3a557ef00b3f658aaff78b4805d36402644dfa/assets/js/core.js#L284-L299'>
+      <span>assets/js/core.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Get id from link</p>
+
+    <div class='pre p1 fill-light mt0'>getIdFromLink(link: any): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>link</span> <code class='quiet'>(any)</code>
+	    -> URL to video
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        -> id
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='db'>
+      db
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/MorrisPenasso/YoutubeDownloader/blob/4c3a557ef00b3f658aaff78b4805d36402644dfa/config/db.js#L8-L13'>
+      <span>config/db.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>When app is started, ask username and password. When is logged, save into current module the username, password and MongoUri</p>
+
+    <div class='pre p1 fill-light mt0'>db</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='server'>
+      server
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/MorrisPenasso/YoutubeDownloader/blob/4c3a557ef00b3f658aaff78b4805d36402644dfa/config/server.js#L4-L7'>
+      <span>config/server.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Server options</p>
+
+    <div class='pre p1 fill-light mt0'>server</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='downloadmedia'>
+      downloadMedia
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/MorrisPenasso/YoutubeDownloader/blob/4c3a557ef00b3f658aaff78b4805d36402644dfa/webMode/js/index.js#L108-L136'>
+      <span>webMode/js/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Download media</p>
+
+    <div class='pre p1 fill-light mt0'>downloadMedia(link: any, mode: any)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>link</span> <code class='quiet'>(any)</code>
+	    -> link to download
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>mode</span> <code class='quiet'>(any)</code>
+	    -> mode: audio or video
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='getlogs'>
+      getLogs
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/MorrisPenasso/YoutubeDownloader/blob/4c3a557ef00b3f658aaff78b4805d36402644dfa/webMode/js/index.js#L141-L154'>
+      <span>webMode/js/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>require logs at server and compile logs modal</p>
+
+    <div class='pre p1 fill-light mt0'>getLogs()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='setpreviewvideo'>
+      setPreviewVideo
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/MorrisPenasso/YoutubeDownloader/blob/4c3a557ef00b3f658aaff78b4805d36402644dfa/webMode/js/index.js#L159-L177'>
+      <span>webMode/js/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Set preview video</p>
+
+    <div class='pre p1 fill-light mt0'>setPreviewVideo()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='getembedcode'>
+      getEmbedCode
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/MorrisPenasso/YoutubeDownloader/blob/4c3a557ef00b3f658aaff78b4805d36402644dfa/webMode/js/index.js#L184-L206'>
+      <span>webMode/js/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Get embed code from youtube video</p>
+
+    <div class='pre p1 fill-light mt0'>getEmbedCode(link: any)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>link</span> <code class='quiet'>(any)</code>
+	    -> youtube link
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='use'>
+      use
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/MorrisPenasso/YoutubeDownloader/blob/4c3a557ef00b3f658aaff78b4805d36402644dfa/webMode/webServer.js#L21-L21'>
+      <span>webMode/webServer.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>load webMode folder</p>
+
+    <div class='pre p1 fill-light mt0'>use</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='createserver'>
+      createServer
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/MorrisPenasso/YoutubeDownloader/blob/4c3a557ef00b3f658aaff78b4805d36402644dfa/webMode/webServer.js#L26-L31'>
+      <span>webMode/webServer.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>create server and open</p>
+
+    <div class='pre p1 fill-light mt0'>createServer()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='openpage'>
+      openPage
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/MorrisPenasso/YoutubeDownloader/blob/4c3a557ef00b3f658aaff78b4805d36402644dfa/webMode/webServer.js#L36-L40'>
+      <span>webMode/webServer.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>open default browser. The client automatically send / request when browser will be loaded</p>
+
+    <div class='pre p1 fill-light mt0'>openPage()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='get'>
+      get
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/MorrisPenasso/YoutubeDownloader/blob/4c3a557ef00b3f658aaff78b4805d36402644dfa/webMode/webServer.js#L45-L48'>
+      <span>webMode/webServer.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>when receive / request, load index.html file and send it at client</p>
+
+    <div class='pre p1 fill-light mt0'>get</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='get'>
+      get
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/MorrisPenasso/YoutubeDownloader/blob/4c3a557ef00b3f658aaff78b4805d36402644dfa/webMode/webServer.js#L76-L80'>
+      <span>webMode/webServer.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Request for get logs</p>
+
+    <div class='pre p1 fill-light mt0'>get</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='post'>
+      post
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/MorrisPenasso/YoutubeDownloader/blob/4c3a557ef00b3f658aaff78b4805d36402644dfa/webMode/webServer.js#L53-L71'>
+      <span>webMode/webServer.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>when receive /downloadMedia request</p>
+
+    <div class='pre p1 fill-light mt0'>post</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+      </div>
+    </div>
+  <script src='assets/anchor.js'></script>
+  <script src='assets/split.js'></script>
+  <script src='assets/site.js'></script>
+</body>
+</html>

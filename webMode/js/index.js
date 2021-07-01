@@ -153,7 +153,9 @@ function getLogs()    {
     });   
 }
 
-
+/**
+ * Set preview video
+ */
 function setPreviewVideo()  {
 
     if ($("#previewMode").is(":checked")) {
@@ -174,6 +176,11 @@ function setPreviewVideo()  {
     }
 }
 
+/**
+ * Get embed code from youtube video
+ * @param {*} link -> youtube link
+ * @returns 
+ */
 function getEmbedCode(link) {
 
     let id = "";
