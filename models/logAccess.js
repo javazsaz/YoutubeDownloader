@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const os = require("os");
-const hostname = os.hostname();
 
 //create log schema
 const logAccessSchema = new mongoose.Schema({
@@ -9,6 +7,9 @@ const logAccessSchema = new mongoose.Schema({
         default: Date.now,
     },
     name:   {
+        type: String
+    },
+    username:   {
         type: String
     },
     localIP: {

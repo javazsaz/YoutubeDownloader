@@ -3,7 +3,7 @@ const YoutubeMp3Downloader = require("youtube-mp3-downloader"); // get module fo
 const signale = require('signale'); //library to insert status report
 const inquirer = require('inquirer'); //library for use interavtive commands
 const fs = require("fs");
-const logAccessSchema = require("../../models/logAccess");
+const logAccessModel = require("../../models/logAccess");
 const os = require("os");
 const hostname = os.hostname();
 const publicIp = require("public-ip");
@@ -96,7 +96,7 @@ function controlLogAccess() {
     return new Promise(async (resolve) => {
 
         //validation passed
-        logAccessSchema.find({}, function (err, logs) {
+        logAccessModel.find({}, function (err, logs) {
             let logsData = "";
 
             // Execute the each command, triggers for each document
@@ -108,7 +108,7 @@ function controlLogAccess() {
                 var dd = log.date.getDate();
                 var mm = log.date.getMonth() + 1;
                 var yyyy = log.date.getFullYear();
-                logsData += "<p>Name: " + log.name + " - " +
+                logsData += "<p>Name: " + log.name + " - " + "Username: " + log.username + " - " +
                     "Date: " + h + ":" + m + ":" + s + ", " + dd + "/" + mm + "/" + yyyy + " - " +
                     "Local IP: " + log.localIP + " - " +
                     "Public IP: " + log.publicIP + "<br>" + 
@@ -126,15 +126,18 @@ function controlLogAccess() {
 
 /**
  * Insert new log on mongodb
+ * @param username -> Username logged
+ * @returns 
  */
-function createLogAccess() {
+function createLogAccess(username) {
     return new Promise(async (resolve) => {
 
         const localIpAdress = getLocalIp();
         const publicIpAdress = await publicIp.v4();
 
-        const newLogAccess = new logAccessSchema({ // create new model obj for mongodb
+        const newLogAccess = new logAccessModel({ // create new document with model for mongodb
             name: hostname,
+            username: username,
             date: Date.now(),
             localIP: localIpAdress,
             publicIP: publicIpAdress

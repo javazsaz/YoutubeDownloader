@@ -13,11 +13,11 @@ function connectDb() {
     signale.pending("Connecting to database...")
 
     //Connect to Mongo
-    mongoose.connect(dbConfig, { useNewUrlParser: true, useUnifiedTopology: true  }).then(async () => {
+    mongoose.connect(dbConfig.MongoUri, { useNewUrlParser: true, useUnifiedTopology: true  }).then(async () => {
         signale.success("Database connected!");
 
         // save the last access
-        await core.createLogAccess();
+        await core.createLogAccess(dbConfig.username);
         
         //control and create logs.txt file
         await core.controlLogAccess();
