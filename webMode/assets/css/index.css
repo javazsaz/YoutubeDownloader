@@ -107,7 +107,7 @@ img {
   height: 100%;
   background-color: gray;
   opacity: 0.5;
-  z-index: 9999;
+  z-index: 999999;
 
 }
 
@@ -117,4 +117,12 @@ img {
 
 #appVersion {
   text-align: right;
+}
+
+.navbar {
+  z-index: 9999;
+}
+
+#logsModal, #infoModal, #downloadMediaModal {
+  z-index: 99999;
 }
