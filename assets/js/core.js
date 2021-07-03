@@ -8,8 +8,6 @@ const os = require("os");
 const hostname = os.hostname();
 const publicIp = require("public-ip");
 
-let nameVideo = "";
-
 /**
  * Show list modes : video or audio
  */
@@ -298,6 +296,16 @@ function getIdFromLink(link)    {
     return link;
 }
 
+/**
+ * Get current version from package.json file
+ * @returns version -> string
+ */
+function getVersion()   {
+
+    var pjson = require("../../package.json");
+    return(pjson.version);
+}
+
 //export module 
 // a module object that contain key -> value: propertyName: call functionName
 module.exports = {
@@ -309,5 +317,6 @@ module.exports = {
     getLocalIp: getLocalIp,
     downloadVideo: downloadVideo,
     downloadAudio: downloadAudio,
-    readLogsFile: readLogsFile
+    readLogsFile: readLogsFile,
+    getVersion: getVersion
 }

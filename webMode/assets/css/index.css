@@ -114,3 +114,7 @@ img {
 #navbarToggleExternalContent label:hover {
   color: #3498db !important
 }
+
+#appVersion {
+  text-align: right;
+}

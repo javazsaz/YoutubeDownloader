@@ -79,4 +79,17 @@ app.get("/getLogs", async (req, res)  =>  {
     res.json(logs);
 })
 
+/**
+ * Request for receive app version
+ */
+app.get("/getVersion", function(req, res)   {
+
+    try {
+        res.json(core.getVersion());
+
+    } catch (error) {
+        res.json({ error: error });  
+    }
+})
+
 module.exports = createServer;

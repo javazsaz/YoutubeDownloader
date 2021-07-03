@@ -1,6 +1,8 @@
 //when html page is loaded with all js files
 $(document).ready(()    =>  {
 
+    setVersion();
+
     //hide loadingg effect for download
     $(".loader").hide();
 
@@ -9,7 +11,7 @@ $(document).ready(()    =>  {
 
         //require logs at server and load on modal
         getLogs();
-    })
+    });
 
 
     //when click on download button for download media
@@ -203,4 +205,25 @@ function getEmbedCode(link) {
     } else {
         return "";
     }
+}
+
+/**
+ * Set version on control panel
+ */
+function setVersion()   {
+
+    $.ajax({
+        url : "http://localhost:8080/getVersion",
+        type : 'GET',
+        success : function(data) {        
+            if (data.error) {
+                toastr.error(data.error);
+            } else {
+                
+                $(".infoModalBody").append("<div><p>Youtube Downloader</p><p>Version: " + data + "</p><p>Author: Morris Penasso</p></div>");
+            }      
+        }
+    }); 
+
+    
 }
