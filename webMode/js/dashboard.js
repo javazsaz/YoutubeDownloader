@@ -104,10 +104,35 @@ $(document).ready(()    =>  {
                 } else {
                     toastr.error("Please compile all fields")
                 }
-            })
+            });
         })
     }
 })
+
+/**
+ * Check isLogged = false on server
+ */
+function logout()   {
+    $.ajax({
+
+        url : "http://localhost:8080/logout",
+        type : 'GET',
+        data : {},
+        dataType:'json',
+        success : function(res) {      
+
+            //close navbar
+            $("[data-target='#navbarToggleExternalContent']").trigger("click");
+            
+            toastr.success(res.msg);
+
+            //return on login
+            setTimeout(() => {
+                window.location.href = "http://localhost:8080/";
+            }, 2000);
+        }
+    });
+}
 
 /**
  * Download media

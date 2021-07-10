@@ -83,6 +83,15 @@ app.post("/login", (req, res) => {
 });
 
 /**
+ * Request for logout
+ */
+ app.get("/logout", async (req, res)  =>  {
+
+    isLogged = false;
+    res.json({msg: "Good bye! Comes back soon"})
+})
+
+/**
  * when receive /downloadMedia request
  */
 app.post("/downloadMedia", (req, res) => {

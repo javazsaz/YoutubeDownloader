@@ -35,7 +35,7 @@ $(document).ready(()    =>  {
                         setTimeout(() => {
                             //load dashboard
                             window.location.href = "http://localhost:8080/dashboard.html";
-                        }, 1000)
+                        }, 2000)
                     }
                 }
             });
