@@ -1,167 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>YoutubeDownloader Web</title>
+    <title>YoutubeDownloader Login</title>
     <link rel="icon" type="image/png" href="./assets/img/image.png" sizes="16x16">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css"
-        integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g=="
-        crossorigin="anonymous" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-blue-Gradient-1.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-blue-Gradient.css">
     <link rel="stylesheet" href="assets/css/index.css">
 </head>
 
-<body style="text-align: center;">
-    <div class="pos-f-t">
-        <div class="collapse" id="navbarToggleExternalContent">
-          <div class="bg-dark p-4">
-            <h4 class="text-white">Control panel</h4>
-          </div>
-          <div class="bg-dark p-1">
-            <label class="text-white" data-toggle="modal" data-target="#logsModal">Logs</label>
-          </div>
-          <div class="bg-dark p-1">
-            <label class="text-white" data-toggle="modal" data-target="#infoModal">Informations</label>
-          </div>
-          
+<body>
+    <section>
+        <div class="lgp-hd">
+            <h2><strong>welcome to YOUTUBE DOWNLOADER</strong></h2>
+            <h5><strong>login to view Dashboard</strong></h5>
         </div>
-        <nav class="navbar navbar-dark bg-dark">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-        </nav>
-      </div>
-    
-    <div class="blockDuringDownload" style="display: none;"></div>
-    <div style="opacity: 1;position: absolute;margin: auto;top: 0;right: 0;bottom: 0;left: 0;height: 50%;">
-        <h1 id="head"
-            style="color: #0fadf5;font-size: 50px;font-family: Quicksand, sans-serif;text-align: center;filter: sepia(0%);">
-            Youtube Downloader</h1>
-        <div class="btnContainer">
-
-            <div class="imgContainer">
-                <a href="#" data-toggle="modal" data-target="#downloadMediaModal">
-                    <img src="assets/img/./image.png">
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for download media -->
-    <div class="modal fade" id="downloadMediaModal" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle">Download</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-
-                    <div class="form-group row">
-                        <label for="inputLink" class="col-sm-2 col-form-label">Link</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="inputLink" placeholder="Insert Link">
-                        </div>
-                    </div>
-                    <fieldset class="form-group">
-                        <div class="row">
-                            <legend class="col-form-label col-sm-2 pt-0">Mode</legend>
-                            <div class="col-sm-10 checkbox-group">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="videoMode" id="videoMode">
-                                    <label class="form-check-label labelMode" for="videoMode">
-                                        Video
-                                    </label>
-                    
-                                    <input class="form-check-input" type="checkbox" name="audioMode" id="audioMode">
-                                    <label class="form-check-label labelMode" for="audioMode">
-                                        Audio
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <legend class="col-form-label col-sm-2 pt-0">Options</legend>
-                            <div class="col-sm-10 checkbox-group">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="previewMode" id="previewMode">
-                                    <label class="form-check-label labelMode" for="previewMode">
-                                        Preview
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    
-                        <!-- LOADING EFFECT -->
-                        <div id="row">
-                            <div class="loader"></div>
-                        </div>
-
-                        
-                    </fieldset>
-                    <div id="previewVideo">
-                            
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary btnDownloadMedia">Download</button>
+        <div class="container login-cont">
+            <div class="row">
+                <div class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1 login-col">
+                    <form class="login-form">
+                        <div><img src="assets/img/image.png" style="width: 100px;height: 100px;margin: 0;"></div>
+                        <div class="form-group"><input class="form-control input-lg lg-frc usernameField" type="text" placeholder="Username"></div>
+                        <div class="form-group"><input class="form-control input-lg lg-frc passwordField" type="password" placeholder="Password"></div>
+                        <div class="form-group"><button class="btn btn-default btn-lg login-btn btnLogin" type="button"><strong>Login</strong></button></div>
+                        <div class="spinner-border text-light" role="status">
+                            <span class="sr-only">Loading...</span>
+                          </div>
+                    </form>
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- Modal for show logs -->
-    <div class="modal fade bd-example-modal-lg" id="logsModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle">Logs</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body logsModalBody">
-                    <!-- logs -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for info -->
-    <div class="modal fade bd-example-modal-lg" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle">Informations</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body infoModalBody">
-                    <!-- info -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    </section>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
-        integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
-        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="js/index.js"></script>
 </body>
 

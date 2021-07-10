@@ -6,55 +6,54 @@ const dbConfig = require("./config/db"); // For obtain all options to connect on
 const createServer = require("./webMode/webServer");
 const core = require("./assets/js/core");
 
-connectDb();
+showLogo();
 
 /**
  * Connect to MongoDB
  */
 function connectDb() {
+    return new Promise(async (resolve) => {
 
-    //Ask username and password for MongoDB
-    inquirer.prompt([
-        {
-            // parameters
-            type: "input",
-            name: "username", 
-            message: "Insert the username - Ctrl+c to exit" // question
-        },
-        {
-            // parameters
-            type: "password",
-            name: "password",
-            message: "Insert password - Ctrl+c to exit" // question
-        }
-    ])
-        .then(answer => { // answer contain username and password property ( name property of question )
+        //Ask username and password for MongoDB
+        inquirer.prompt([
+            {
+                // parameters
+                type: "input",
+                name: "username",
+                message: "Insert the username - Ctrl+c to exit" // question
+            },
+            {
+                // parameters
+                type: "password",
+                name: "password",
+                message: "Insert password - Ctrl+c to exit" // question
+            }
+        ])
+            .then(answer => { // answer contain username and password property ( name property of question )
 
-            dbConfig.username = answer.username;
-            dbConfig.password = answer.password;
-            dbConfig.MongoUri = "mongodb+srv://" + dbConfig.username + ":" + dbConfig.password + "@cluster-youtubedownload.v9azt.mongodb.net/youtubeDownloadDB?retryWrites=true&w=majority"
+                dbConfig.username = answer.username;
+                dbConfig.password = answer.password;
+                dbConfig.MongoUri = "mongodb+srv://" + dbConfig.username + ":" + dbConfig.password + "@cluster-youtubedownload.v9azt.mongodb.net/youtubeDownloadDB?retryWrites=true&w=majority"
 
-            signale.pending("Connecting to database...")
+                signale.pending("Connecting to database...")
 
-            //Connect to Mongo
-            mongoose.connect(dbConfig.MongoUri, { useNewUrlParser: true, useUnifiedTopology: true }).then(async () => {
-                signale.success("Database connected!");
+                //Connect to Mongo
+                mongoose.connect(dbConfig.MongoUri, { useNewUrlParser: true, useUnifiedTopology: true }).then(async () => {
+                    signale.success("Database connected!");
 
-                // save the last access
-                await core.createLogAccess(dbConfig.username);
+                    // save the last access
+                    await core.createLogAccess(dbConfig.username);
 
-                //control and create/update logs.txt file
-                await core.controlLogAccess();
+                    //control and create/update logs.txt file
+                    await core.controlLogAccess();
 
-                showLogo();
+                    resolve();
 
-            }).catch((err) => {
-                signale.error("Authentication failed! " + err.codeName + " - Error code: " + err.code);
-
-                //Retry to connect
-                connectDb();
+                }).catch((err) => {
+                    signale.error("Authentication failed! " + err.codeName + " - Error code: " + err.code);
+                })
             })
-        })
+    })
 }
 
 /**
@@ -100,10 +99,11 @@ function webOrCli()   {
                 }
             ]
         }
-    ]).then(function (answer) {
+    ]).then(async function (answer) {
         if(answer.mode == "web")    { // if answer is Web mode ( value of choices )
             createServer();
         } else if(answer.mode == "cli") { // if answer is Command line interface ( value of choices )
+            await connectDb();
             core.selectMode();
         }
     })

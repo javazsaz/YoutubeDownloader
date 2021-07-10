@@ -3,7 +3,11 @@ const signale = require('signale'); //library to insert status report
 const open = require("open");
 const fs = require("fs");
 const serverConfig = require("../config/server");
+const dbConfig = require("../config/db");
+const mongoose = require("mongoose");
 const core = require("../assets/js/core");
+
+var isLogged = false; // for know if user has been logged
 
 const app = new express();
 
@@ -32,6 +36,7 @@ function createServer() {
 
 /**
  * open default browser. The client automatically send / request when browser will be loaded
+ * for default, load index.html page
  */
 async function openPage() {
 
@@ -39,12 +44,42 @@ async function openPage() {
     await open(serverConfig.linkServer + serverConfig.PORT);
 }
 
+app.get("/controlLogged", (req, res)    =>  {
+
+    res.json({isLogged: isLogged})
+})
+
 /**
  * when receive / request, load index.html file and send it at client
  */
-app.get("/", (req, res) => {
-    res.writeHead(200, { 'content-type': 'text/html' })
-    fs.createReadStream('index.html').pipe(res)
+app.post("/login", (req, res) => {
+
+    dbConfig.username = req.body.username;
+    dbConfig.password = req.body.password;
+    dbConfig.MongoUri = "mongodb+srv://" + dbConfig.username + ":" + dbConfig.password + "@cluster-youtubedownload.v9azt.mongodb.net/youtubeDownloadDB?retryWrites=true&w=majority"
+
+    signale.pending("Connecting to database...")
+
+    //Connect to Mongo
+    mongoose.connect(dbConfig.MongoUri, { useNewUrlParser: true, useUnifiedTopology: true }).then(async () => {
+        signale.success("Database connected!");
+
+        // save the last access
+        await core.createLogAccess(dbConfig.username);
+
+        //control and create/update logs.txt file
+        await core.controlLogAccess();
+
+        //save that user has been logged
+        isLogged = true;
+         
+        res.json({msg: "Logged"})
+
+    }).catch((err) => {
+        signale.error("Authentication failed! " + err.codeName + " - Error code: " + err.code);
+        res.json({err: err})
+    })
+    
 });
 
 /**
