@@ -101,11 +101,13 @@ app.post("/downloadMedia", (req, res) => {
     try {
         if (mode === "video") {
             core.downloadVideo(link, false, (response) => {
+                core.saveMediaOnDb(mode, response.fileName, link);// save link on db
                 res.json(response);
             })
 
         } else if (mode === "audio") {
             core.downloadAudio(link, false, (response) => {
+                core.saveMediaOnDb(mode, response.fileName, link); // save link on db
                 res.json(response);
             })
         }

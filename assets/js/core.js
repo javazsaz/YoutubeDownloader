@@ -4,6 +4,7 @@ const signale = require('signale'); //library to insert status report
 const inquirer = require('inquirer'); //library for use interavtive commands
 const fs = require("fs");
 const logAccessModel = require("../../models/logAccess");
+const mediaModel = require("../../models/media");
 const os = require("os");
 const hostname = os.hostname();
 const publicIp = require("public-ip");
@@ -142,6 +143,28 @@ function createLogAccess(username) {
         });
 
         await newLogAccess.save();
+        resolve()
+    })
+}
+
+/**
+ * Insert link of media on mongodb
+ * @param mode -> mode selected - audio or video
+ * @param fileName -> Name of the file
+ * @param link -> Link of media
+ * @returns 
+ */
+ function saveMediaOnDb(mode, fileName, link) {
+    return new Promise(async (resolve) => {
+
+        const newMedia = new mediaModel({ // create new document with model for mongodb
+            fileName: fileName,
+            mode: mode,
+            link: link,
+            date: Date.now(),
+        });
+
+        await newMedia.save();
         resolve()
     })
 }
@@ -318,5 +341,6 @@ module.exports = {
     downloadVideo: downloadVideo,
     downloadAudio: downloadAudio,
     readLogsFile: readLogsFile,
-    getVersion: getVersion
+    getVersion: getVersion,
+    saveMediaOnDb: saveMediaOnDb
 }

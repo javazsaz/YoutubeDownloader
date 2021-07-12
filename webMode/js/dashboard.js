@@ -258,6 +258,9 @@ function setVersion()   {
     }); 
 }
 
+/**
+ * Control on server if user is logged
+ */
 function controlIsLogged()  {
 
     $.ajax({
