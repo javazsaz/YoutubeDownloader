@@ -1,21 +1,19 @@
-const mongoose = require("mongoose");
-
+var mongoose = require("mongoose");
 //create log schema
-const mediaSchema = new mongoose.Schema({
-    fileName:   {
+var mediaSchema = new mongoose.Schema({
+    fileName: {
         type: String
     },
-    mode:   {
+    mode: {
         type: String
     },
-    link:   {
+    link: {
         type: String
     },
     date: {
         type: Date
     }
-})
-
-const media = mongoose.model("media", mediaSchema);
-
+});
+var media = mongoose.model("media", mediaSchema);
 module.exports = media;
+//# sourceMappingURL=media.js.map

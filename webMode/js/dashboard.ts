@@ -1,228 +1,283 @@
 //when html page is loaded with all js files
-$(document).ready(function () {
+$(document).ready(()    =>  {
+
     //control if user has been logged
-    var res = controlIsLogged();
+    var res: boolean = controlIsLogged();
+
     //is logged
     if (!res) {
         setVersion();
+
         //hide loadingg effect for download
         $(".loader").hide();
+
         //when click on logs voice on navbar
-        $('#logsModal').on('show.bs.modal', function (e) {
+        $('#logsModal').on('show.bs.modal', function (e: any) {
+
             //require logs at server and load on modal
             getLogs();
         });
+
         //when click on download button for download media
-        $('#downloadMediaModal').on('show.bs.modal', function (e) {
-            $("#previewMode").prop("disabled", true); //disable previewMode  
+        $('#downloadMediaModal').on('show.bs.modal', function (e: any) {
+
+            $("#previewMode").prop("disabled", true)    //disable previewMode  
+
             //When video mode is clicked
-            $("#videoMode").on("click", function () {
+            $("#videoMode").on("click", () => {
+
                 if ($("#videoMode").is(":checked")) {
-                    $("#previewMode").prop("disabled", false); //enable preview mode  
-                    $("#audioMode").prop('checked', false); //delete previous check on audio 
-                }
-                else {
-                    $("#previewMode").prop("disabled", true); //disable preview mode  
-                    $("#audioMode").prop('checked', false); //delete previous check on audio 
-                    $("#previewMode").prop('checked', false); //delete previous check on previewMode 
+                    $("#previewMode").prop("disabled", false) //enable preview mode  
+
+                    $("#audioMode").prop('checked', false);   //delete previous check on audio 
+                } else {
+                    $("#previewMode").prop("disabled", true) //disable preview mode  
+
+                    $("#audioMode").prop('checked', false);   //delete previous check on audio 
+                    $("#previewMode").prop('checked', false);   //delete previous check on previewMode 
+
                     //delete last preview video
                     $("#previewVideo").html("");
                 }
-            });
+            })
+
             //if click on audioMode
-            $("#audioMode").on("click", function () {
-                $("#previewMode").prop("disabled", true); //disable previewMode  
-                $("#videoMode").prop('checked', false); // delete previous check on video
-                $("#previewMode").prop('checked', false); // delete previous check on previewMode
+            $("#audioMode").on("click", () => {
+                $("#previewMode").prop("disabled", true)    //disable previewMode  
+
+                $("#videoMode").prop('checked', false);    // delete previous check on video
+                $("#previewMode").prop('checked', false);    // delete previous check on previewMode
+
                 //delete last preview video
                 $("#previewVideo").html("");
-            });
+
+            })
+
             //delete last link
             $("#inputLink").val("");
+
             //delete last preview video
             $("#previewVideo").html("");
+
             //Delete previous check
             $("#previewMode").prop('checked', false);
+
             //when link is pasted or is changed
-            $("#inputLink").on("keydown paste", function () {
+            $("#inputLink").on("keydown paste", () => {
+
                 //only if previewMode is checked
                 if ($("#previewMode").is(":checked")) {
-                    $("#previewMode").trigger("click");
+                    $("#previewMode").trigger("click")
                 }
-            });
+            })
+
             //when click on previewMode
-            $("#previewMode").on("click", function () {
+            $("#previewMode").on("click", () => {
+
                 setPreviewVideo();
-            });
+
+            })
+
             //When click on "Download" button
-            $(".btnDownloadMedia").on("click", function (ev) {
+            $(".btnDownloadMedia").on("click", (ev: any) => {
                 ev.stopImmediatePropagation();
+
                 //get link to download
-                var link = $("#inputLink").val();
+                const link: any = $("#inputLink").val();
+
                 //if all fields are compiled
                 if ($('div.checkbox-group :checkbox:checked').length > 0 && link !== "") {
+
                     //get mode
-                    var mode = "";
+                    let mode: string = "";
+
                     //check mode selected
                     if ($("#videoMode").is(":checked")) {
                         mode = "video";
-                    }
-                    else if ($("#audioMode").is(":checked")) {
+                    } else if ($("#audioMode").is(":checked")) {
                         mode = "audio";
                     }
+
                     downloadMedia(link, mode);
-                }
-                else {
-                    toastr.error("Please compile all fields");
+                } else {
+                    toastr.error("Please compile all fields")
                 }
             });
-        });
+        })
     }
-});
+})
+
 /**
  * Check isLogged = false on server
  */
-function logout() {
+function logout(): void   {
     $.ajax({
-        url: "http://localhost:8080/logout",
-        type: 'GET',
-        data: {},
-        dataType: 'json',
-        success: function (res) {
+
+        url : "http://localhost:8080/logout",
+        type : 'GET',
+        data : {},
+        dataType:'json',
+        success : function(res: any) {      
+
             //close navbar
             $("[data-target='#navbarToggleExternalContent']").trigger("click");
+            
             toastr.success(res.msg);
+
             //return on login
-            setTimeout(function () {
+            setTimeout(() => {
                 window.location.href = "http://localhost:8080/";
             }, 2000);
         }
     });
 }
+
 /**
  * Download media
- * @param link -> link to download
+ * @param link -> link to download 
  * @param mode -> mode: audio or video
  */
-function downloadMedia(link, mode) {
+function downloadMedia(link: string, mode: string): void    {
+
     //show loading effect
     $(".loader").show();
+
     //show block container for downloading
     $(".blockDuringDownload").show();
+
     //Prepare object that contain media info
-    var data = { link: link, mode: mode };
+    const data: YTDownloader.IMediaInfo = {link: link, mode: mode};
+
     $.ajax({
-        url: "http://localhost:8080/downloadMedia",
-        type: 'POST',
-        data: data,
-        dataType: 'json',
-        success: function (res) {
+
+        url : "http://localhost:8080/downloadMedia",
+        type : 'POST',
+        data : data,
+        dataType:'json',
+        success : function(res: any) {        
             if (res.error) {
                 toastr.error(res.error);
-            }
-            else {
+            } else {
                 toastr.success(res.message);
-            }
+            }      
+
             $(".loader").hide();
+
             //hide block container for downloading
             $(".blockDuringDownload").hide();
         }
     });
+    
 }
+
 /**
  * require logs at server and compile logs modal
  */
-function getLogs() {
+function getLogs(): void    {
+
     $.ajax({
-        url: "http://localhost:8080/getLogs",
-        type: 'GET',
-        success: function (data) {
+        url : "http://localhost:8080/getLogs",
+        type : 'GET',
+        success : function(data: any) {        
             if (data.error) {
                 toastr.error(data.error);
-            }
-            else {
-                $(".logsModalBody").html(data.success);
-            }
+            } else {
+                $(".logsModalBody").html(data.success)
+            }      
         }
-    });
+    });   
 }
+
 /**
  * Set preview video
  */
-function setPreviewVideo() {
+function setPreviewVideo(): void  {
+
     if ($("#previewMode").is(":checked")) {
+
         //delete last preview video
         $("#previewVideo").html("");
+
         //get current link
-        var currentLink = $("#inputLink").val();
-        var embedCodeFromLink = getEmbedCode(currentLink);
+        const currentLink: any = $("#inputLink").val();
+
+        let embedCodeFromLink: string = getEmbedCode(currentLink);
+
         //try to load video
         $("#previewVideo").html(embedCodeFromLink);
-    }
-    else {
+    } else {
         //delete last preview video
         $("#previewVideo").html("");
     }
 }
+
 /**
  * Get embed code from youtube video
  * @param {*} link -> youtube link
- * @returns
+ * @returns 
  */
-function getEmbedCode(link) {
-    var id = "";
+function getEmbedCode(link: string): string {
+
+    let id: string = "";
+
     //complex format
     if (link.indexOf("&") != -1) {
+
         //get only id of link - you can download audio to get id
-        id = link.substring(link.indexOf("v=") + 2, link.indexOf("&"));
+        id = link.substring(link.indexOf("v=") + 2, link.indexOf("&"))
+
         //simple format
-    }
-    else {
+    } else {
         //get only id of link - you can download audio to get id
-        id = link.substring(link.indexOf("v=") + 2, link.length);
+        id = link.substring(link.indexOf("v=") + 2, link.length)
     }
+
     if (id != "") {
+    
         return '<iframe style="position:relative" width="360" height="315" src="//www.youtube.com/embed/' + id + '" frameborder="0" allowfullscreen></iframe>';
-    }
-    else {
+    } else {
         return "";
     }
 }
+
 /**
  * Set version on control panel
  */
-function setVersion() {
+function setVersion(): void   {
+
     $.ajax({
-        url: "http://localhost:8080/getVersion",
-        type: 'GET',
-        success: function (data) {
+        url : "http://localhost:8080/getVersion",
+        type : 'GET',
+        success : function(data: any) {        
             if (data.error) {
                 toastr.error(data.error);
-            }
-            else {
+            } else {
+                
                 $(".infoModalBody").append("<div><p>Youtube Downloader</p><p>Version: " + data + "</p><p>Author: Morris Penasso</p></div>");
-            }
+            }      
         }
-    });
+    }); 
 }
+
 /**
  * Control on server if user is logged
  */
-function controlIsLogged() {
-    var res = false;
+function controlIsLogged(): boolean  {
+
+    let res: boolean = false;
     $.ajax({
-        url: "http://localhost:8080/controlLogged",
-        type: 'GET',
-        success: function (res) {
+        url : "http://localhost:8080/controlLogged",
+        type : 'GET',
+        success : function(res) {        
             if (!res.isLogged) {
                 window.location.href = "http://localhost:8080/403.html";
                 res = false;
             }
-            else {
+            else    {
                 res = true;
             }
         }
-    });
+    }); 
+
     return res;
 }
-//# sourceMappingURL=dashboard.js.map

@@ -1,25 +1,23 @@
-const mongoose = require("mongoose");
-
+var mongooseDriver = require("mongoose");
 //create log schema
-const logAccessSchema = new mongoose.Schema({
+var logAccessSchema = new mongooseDriver.Schema({
     date: {
         type: Date,
         default: Date.now,
     },
-    name:   {
+    name: {
         type: String
     },
-    username:   {
+    username: {
         type: String
     },
     localIP: {
         type: String
     },
-    publicIP:   {
+    publicIP: {
         type: String
     }
-})
-
-const logAccess = mongoose.model("logAccess", logAccessSchema);
-
+});
+var logAccess = mongooseDriver.model("logAccess", logAccessSchema);
 module.exports = logAccess;
+//# sourceMappingURL=logAccess.js.map
