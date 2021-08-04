@@ -41,6 +41,7 @@ var inquirer = require('inquirer'); //library for use interavtive commands
 var fs = require("fs");
 var logAccessModel = require("../../models/logAccess");
 var mediaModel = require("../../models/media");
+var dbConfig = require("../../config/db");
 var os = require("os");
 var hostname = os.hostname();
 var publicIp = require("public-ip");
@@ -234,6 +235,10 @@ function downloadVideo(link, cliMode, callback) {
             //Message on terminal
             signale.success("The video: " + videoTitle + " has been downloaded");
             if (cliMode) {
+                if (!dbConfig.offlineMode) {
+                    //Save media information on DB
+                    saveMediaOnDb("video", videoTitle, link);
+                }
                 //Restart application while user send Ctrl+c command
                 selectMode();
             }
@@ -272,6 +277,10 @@ function downloadAudio(link, cliMode, callback) {
             signale.info('Name of audio track: ' + data.videoTitle);
             signale.info('Size: ' + transferredData.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0] + " MB");
             if (cliMode) {
+                if (!dbConfig.offlineMode) {
+                    //Save media information on DB
+                    saveMediaOnDb("video", data.videoTitle, link);
+                }
                 //ask new question: audio or video
                 selectMode();
             }

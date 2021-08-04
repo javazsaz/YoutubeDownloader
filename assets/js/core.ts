@@ -5,6 +5,7 @@ const inquirer: any = require('inquirer'); //library for use interavtive command
 const fs: any = require("fs");
 const logAccessModel: any = require("../../models/logAccess");
 const mediaModel: any = require("../../models/media");
+const dbConfig: any = require("../../config/db");
 const os: any = require("os");
 const hostname: any = os.hostname();
 const publicIp: any = require("public-ip");
@@ -204,6 +205,10 @@ function downloadVideo(link: string, cliMode: boolean, callback: any) {
                 signale.success("The video: " + videoTitle + " has been downloaded");
 
                 if (cliMode) {
+                    if (!dbConfig.offlineMode) {
+                        //Save media information on DB
+                        saveMediaOnDb("video", videoTitle, link);
+                    }
                     //Restart application while user send Ctrl+c command
                     selectMode();
                 } else {
@@ -251,6 +256,10 @@ function downloadAudio(link: string, cliMode: boolean, callback: any) {
             signale.info('Size: ' + transferredData.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0] + " MB")
 
             if (cliMode) {
+                if (!dbConfig.offlineMode) {
+                    //Save media information on DB
+                    saveMediaOnDb("video", data.videoTitle, link);
+                }
                 //ask new question: audio or video
                 selectMode();
             } else {
