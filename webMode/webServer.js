@@ -46,8 +46,8 @@ async function openPage() {
 
 app.get("/controlLogged", (req, res)    =>  {
 
-    res.json({isLogged: isLogged})
-})
+    res.json({isLogged: isLogged, offlineMode: dbConfig.offlineMode})
+});
 
 /**
  * when receive / request, load index.html file and send it at client
@@ -72,6 +72,7 @@ app.post("/login", (req, res) => {
 
         //save that user has been logged
         isLogged = true;
+        dbConfig.offlineMode = false;
          
         res.json({msg: "Logged"})
 
@@ -81,6 +82,20 @@ app.post("/login", (req, res) => {
     })
     
 });
+
+/**
+ * Request for OfflineMode
+ */
+app.post("/offlineMode", (req, res)  => {
+
+    //Set Login parameter for access to application
+    isLogged = true;
+
+    //Set offlineMode parameter
+    dbConfig.offlineMode = true;
+
+    res.json({msg: "Offline Mode activated"})
+})
 
 /**
  * Request for logout
@@ -101,13 +116,17 @@ app.post("/downloadMedia", (req, res) => {
     try {
         if (mode === "video") {
             core.downloadVideo(link, false, (response) => {
-                core.saveMediaOnDb(mode, response.fileName, link);// save link on db
+                if (!dbConfig.offlineMode) {
+                    core.saveMediaOnDb(mode, response.fileName, link);// save link on db
+                }
                 res.json(response);
             })
 
         } else if (mode === "audio") {
             core.downloadAudio(link, false, (response) => {
-                core.saveMediaOnDb(mode, response.fileName, link); // save link on db
+                if (!dbConfig.offlineMode) {
+                    core.saveMediaOnDb(mode, response.fileName, link); // save link on db
+                }
                 res.json(response);
             })
         }
@@ -121,8 +140,12 @@ app.post("/downloadMedia", (req, res) => {
  */
 app.get("/getLogs", async (req, res)  =>  {
 
-    let logs = await core.readLogsFile();
-    res.json(logs);
+    if (!dbConfig.offlineMode) {
+        let logs = await core.readLogsFile();
+        res.json(logs);
+    } else  {
+        res.json();
+    }
 })
 
 /**

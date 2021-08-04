@@ -10,7 +10,7 @@ const hostname: any = os.hostname();
 const publicIp: any = require("public-ip");
 
 /**
- * Show list modes : video or audio
+ * Show list modes : video or audio ( for cli mode )
  */
 function selectMode():void {
 

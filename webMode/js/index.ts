@@ -4,7 +4,7 @@ $(document).ready(()    =>  {
     $(".spinner-border").hide();
 
     //When click on login button
-    $(".btnLogin").click(()  =>  {
+    $(".btnLogin").on("click", ()  =>  {
 
         //show spinner loading effect
         $(".spinner-border").show();
@@ -47,5 +47,25 @@ $(document).ready(()    =>  {
             $(".spinner-border").hide();
             toastr.error("Please enter the correct username and password");
         }
+    })
+
+    //Click on Offline Mode
+    $(".offlineMode").on("click", () => {
+
+        //call server to execute login
+        $.ajax({
+
+            url: "http://localhost:8080/offlineMode",
+            type: 'POST',
+            data: {},
+            dataType: 'json',
+            success: function (res: any) {
+
+                    //load dashboard
+                    window.location.href = "http://localhost:8080/dashboard.html";
+       
+
+            }
+        });
     })
 })

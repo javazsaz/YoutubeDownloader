@@ -2,7 +2,7 @@
 $(document).ready(function () {
     $(".spinner-border").hide();
     //When click on login button
-    $(".btnLogin").click(function () {
+    $(".btnLogin").on("click", function () {
         //show spinner loading effect
         $(".spinner-border").show();
         //Get username and password
@@ -39,6 +39,20 @@ $(document).ready(function () {
             $(".spinner-border").hide();
             toastr.error("Please enter the correct username and password");
         }
+    });
+    //Click on Offline Mode
+    $(".offlineMode").on("click", function () {
+        //call server to execute login
+        $.ajax({
+            url: "http://localhost:8080/offlineMode",
+            type: 'POST',
+            data: {},
+            dataType: 'json',
+            success: function (res) {
+                //load dashboard
+                window.location.href = "http://localhost:8080/dashboard.html";
+            }
+        });
     });
 });
 //# sourceMappingURL=index.js.map

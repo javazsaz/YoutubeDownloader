@@ -1,13 +1,18 @@
 //when html page is loaded with all js files
-$(document).ready(()    =>  {
+$(document).ready(() => {
 
     //control if user has been logged
-    var res: boolean = controlIsLogged();
+    controlIsLogged().then((res: YTDownloader.IControlLoginInfo) => {
 
-    //is logged
-    if (!res) {
-        setVersion();
+        //is logged
+        if (res.isLogged && !res.offlineMode) {
+            setVersion(); // set current version
+        }
 
+        if (res.offlineMode) {
+            $(".navbarOnlineInfo").hide();
+        }
+        
         //hide loadingg effect for download
         $(".loader").hide();
 
@@ -104,7 +109,8 @@ $(document).ready(()    =>  {
                 }
             });
         })
-    }
+    });
+
 })
 
 /**
@@ -262,22 +268,18 @@ function setVersion(): void   {
 /**
  * Control on server if user is logged
  */
-function controlIsLogged(): boolean  {
+function controlIsLogged(): Promise<any> {
+    return new Promise(function (resolve, reject) {
+        $.ajax({
+            url: "http://localhost:8080/controlLogged",
+            type: 'GET',
+            success: function (res: YTDownloader.IControlLoginInfo) {
+                if (!res.isLogged && !res.offlineMode) {
+                    window.location.href = "http://localhost:8080/403.html";
+                }
 
-    let res: boolean = false;
-    $.ajax({
-        url : "http://localhost:8080/controlLogged",
-        type : 'GET',
-        success : function(res) {        
-            if (!res.isLogged) {
-                window.location.href = "http://localhost:8080/403.html";
-                res = false;
+                resolve(res);
             }
-            else    {
-                res = true;
-            }
-        }
-    }); 
-
-    return res;
+        });
+    })
 }

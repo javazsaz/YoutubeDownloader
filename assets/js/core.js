@@ -45,7 +45,7 @@ var os = require("os");
 var hostname = os.hostname();
 var publicIp = require("public-ip");
 /**
- * Show list modes : video or audio
+ * Show list modes : video or audio ( for cli mode )
  */
 function selectMode() {
     // ask mode

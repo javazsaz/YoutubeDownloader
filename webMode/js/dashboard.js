@@ -1,10 +1,14 @@
 //when html page is loaded with all js files
 $(document).ready(function () {
     //control if user has been logged
-    var res = controlIsLogged();
-    //is logged
-    if (!res) {
-        setVersion();
+    controlIsLogged().then(function (res) {
+        //is logged
+        if (res.isLogged && !res.offlineMode) {
+            setVersion(); // set current version
+        }
+        if (res.offlineMode) {
+            $(".navbarOnlineInfo").hide();
+        }
         //hide loadingg effect for download
         $(".loader").hide();
         //when click on logs voice on navbar
@@ -77,7 +81,7 @@ $(document).ready(function () {
                 }
             });
         });
-    }
+    });
 });
 /**
  * Check isLogged = false on server
@@ -209,20 +213,17 @@ function setVersion() {
  * Control on server if user is logged
  */
 function controlIsLogged() {
-    var res = false;
-    $.ajax({
-        url: "http://localhost:8080/controlLogged",
-        type: 'GET',
-        success: function (res) {
-            if (!res.isLogged) {
-                window.location.href = "http://localhost:8080/403.html";
-                res = false;
+    return new Promise(function (resolve, reject) {
+        $.ajax({
+            url: "http://localhost:8080/controlLogged",
+            type: 'GET',
+            success: function (res) {
+                if (!res.isLogged && !res.offlineMode) {
+                    window.location.href = "http://localhost:8080/403.html";
+                }
+                resolve(res);
             }
-            else {
-                res = true;
-            }
-        }
+        });
     });
-    return res;
 }
 //# sourceMappingURL=dashboard.js.map

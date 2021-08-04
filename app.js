@@ -102,9 +102,37 @@ function webOrCli()   {
     ]).then(async function (answer) {
         if(answer.mode == "web")    { // if answer is Web mode ( value of choices )
             createServer();
-        } else if(answer.mode == "cli") { // if answer is Command line interface ( value of choices )
-            await connectDb();
-            core.selectMode();
+        } else if (answer.mode == "cli") { // if answer is Command line interface ( value of choices )
+
+            //ask mode
+            inquirer.prompt([
+                {
+                    type: 'list',
+                    message: 'Choose if you want to use Online Mode or Offline Mode. Ctrl+C to exit',
+                    name: 'onlineOffline',
+                    default: 'online',
+                    choices: [
+                        {
+                            name: "Online mode",
+                            value: "online",
+                        },
+                        {
+                            name: "Offline mode",
+                            value: "offline",
+                        }
+                    ]
+                }
+            ]).then(async function (answer) {
+                if (answer.onlineOffline === "online") {
+                    dbConfig.offlineMode = false;
+                    await connectDb();
+                    core.selectMode();
+                } else  {
+                    dbConfig.offlineMode = true;
+                    core.selectMode();
+                }
+            })
         }
+
     })
 }
