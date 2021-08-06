@@ -9,6 +9,7 @@ const dbConfig: any = require("../../config/db");
 const os: any = require("os");
 const hostname: any = os.hostname();
 const publicIp: any = require("public-ip");
+const ProgressBar: any = require('progress')
 
 /**
  * Show list modes : video or audio ( for cli mode )
@@ -226,6 +227,14 @@ function downloadVideo(link: string, cliMode: boolean, callback: any) {
  */
 function downloadAudio(link: string, cliMode: boolean, callback: any) {
 
+    //Create download bar
+    var bar = new ProgressBar('  Downloading [:bar] :percent', {
+        complete: '=',
+        incomplete: ' ',
+        width: 20,
+        total: 100 // end on 100%
+      });
+      
     link = getIdFromLink(link);
 
     new Promise(function (resolve, reject) {
@@ -240,11 +249,8 @@ function downloadAudio(link: string, cliMode: boolean, callback: any) {
             "allowWebm": false                      // Enable download from WebM sources (default: false)
         });
 
-        signale.pending("Start to download audio track...")
-
         //Download video and save as MP3 file
         YD.download(link);
-
 
         //when download is finished
         YD.on("finished", function (err, data) {
@@ -280,10 +286,12 @@ function downloadAudio(link: string, cliMode: boolean, callback: any) {
 
         //during download
         YD.on("progress", function (progress) {
-
             //show percentage
-            var percentage = progress.progress.percentage;
-            signale.info(percentage.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0] + "%");
+            //let percentage = progress.progress.percentage.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0] + "%";
+            let percentage = progress.progress.percentage;
+                       
+            //Add percentage to download bar
+            bar.tick(percentage);
         });
     })
 }

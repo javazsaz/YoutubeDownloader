@@ -1,7 +1,7 @@
 {
   "name": "youtubedownloader",
-  "version": "3.4.2",
-  "description": "A software for download youtube videos",
+  "version": "3.4.3",
+  "description": "A software for download youtube audio and videos",
   "main": "app.js",
   "scripts": {
     "start": "nodemon node app.js"
@@ -17,11 +17,12 @@
     "mongoose": "^5.11.15",
     "normalize-url": ">=4.5.1",
     "open": "^7.4.1",
+    "progress": "^2.0.3",
     "public-ip": "^4.0.3",
     "signale": "1.4.0",
     "trim-newlines": ">=3.0.1",
     "youtube-mp3-downloader": "^0.7.6",
-    "ytdl-core": "^4.8.3"
+    "ytdl-core": "^4.9.1"
   },
   "author": "Morris Penasso",
   "license": "MIT",

@@ -45,6 +45,7 @@ var dbConfig = require("../../config/db");
 var os = require("os");
 var hostname = os.hostname();
 var publicIp = require("public-ip");
+var ProgressBar = require('progress');
 /**
  * Show list modes : video or audio ( for cli mode )
  */
@@ -255,6 +256,13 @@ function downloadVideo(link, cliMode, callback) {
  * @param {*} callback -> used from web mode
  */
 function downloadAudio(link, cliMode, callback) {
+    //Create download bar
+    var bar = new ProgressBar('  Downloading [:bar] :percent', {
+        complete: '=',
+        incomplete: ' ',
+        width: 20,
+        total: 100 // end on 100%
+    });
     link = getIdFromLink(link);
     new Promise(function (resolve, reject) {
         //Configure YoutubeMp3Downloader with your settings
@@ -266,7 +274,6 @@ function downloadAudio(link, cliMode, callback) {
             "progressTimeout": 2000,
             "allowWebm": false // Enable download from WebM sources (default: false)
         });
-        signale.pending("Start to download audio track...");
         //Download video and save as MP3 file
         YD.download(link);
         //when download is finished
@@ -301,8 +308,10 @@ function downloadAudio(link, cliMode, callback) {
         //during download
         YD.on("progress", function (progress) {
             //show percentage
+            //let percentage = progress.progress.percentage.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0] + "%";
             var percentage = progress.progress.percentage;
-            signale.info(percentage.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0] + "%");
+            //Add percentage to download bar
+            bar.tick(percentage);
         });
     });
 }
